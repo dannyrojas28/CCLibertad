@@ -1,0 +1,35 @@
+<ion-view view-title="Autenticación" >
+  <ion-content class="padding">
+  	<center><img src="img/logo2.png" style="width:189px"></center>
+  	<div class="list list-inset">
+	  <label class="item item-input">
+	  	 <i class="icon ion-person" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
+	    <input type="text" placeholder="Nombres Completos"   ng-model="login.nombres" value="{{data.nombres}}">
+	  </label>
+	  <label class="item item-input">
+	  	 <i class="icon ion-email " style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
+	    <input type="email" placeholder="Correo Electronico"   ng-model="login.email" value="{{data.email}}">
+	  </label>
+	  <label class="item item-input">
+	  	 <i class="icon ion-android-phone-portrait" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
+	    <input type="number" placeholder="Numero de Celular"   ng-model="login.numero" >
+	  </label>
+	  <label class="item item-input">
+	  	 <i class="icon ion-ios-calendar-outline" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
+	    <input class="filter-date" type="date"   ng-model="login.fecha_nacimiento" value="{{data.fecha}}" data-date-format="DD MMMM YYYY">
+	  </label>
+
+	</div>
+    <center>
+  		<button class="button button-clear" style="color:#9A9A9A;" ng-click="openModal($event)">Politicas de privacidad</button>
+    </center>
+
+
+
+	
+  </ion-content>
+  <div class="bar bar-footer">
+  <button class="button button-clear" style="color:#4A7648;"></button>
+  <a class="button icon-right ion-chevron-right button-clear button-dark" ng-click="authenticate();show();" style="font-size:22px;">Empezar</a>
+</div>
+</ion-view>

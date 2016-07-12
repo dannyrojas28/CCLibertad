@@ -1,0 +1,6 @@
+colores{
+	verde-oscuro : #4A7648;
+	verde-claro  : #81C78B;
+	gris-oscuro  : #E6E7E8;
+	gris-claro   : #FEFEFE; 
+}

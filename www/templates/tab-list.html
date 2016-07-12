@@ -1,0 +1,17 @@
+<ion-view view-title="Eventos">
+  <ion-content class="padding">
+    <div class="list card card" ng-repeat="event in events">
+      <div class="item item-divider">
+        {{ event.speaker}}
+        <p>
+          {{event.date}} | {{event.place}}
+        </p>
+      </div>
+      <div class="item item-body">
+        <div>
+          {{ event.title }}
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
