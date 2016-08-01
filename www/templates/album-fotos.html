@@ -1,0 +1,44 @@
+<ion-view view-title="Albumes">
+<div class="bar bar-header">
+  <a class="button button-icon icon ion-chevron-left" href="#/tab/multimedia"></a>
+  <h5 style="margin:5px;text-align: center;position: absolute;">{{nombre}}</h5>
+</div>
+  <ion-content class="has-header ds">
+		   <ion-slides  options="options" slider="data.slider" >
+            <ion-slide-page ng-repeat="album in albums" >
+                <div class="container" ng-if="slideVisible($index)" class="scrollCanvas">
+	                <ion-scroll class="scrollCanvas" zooming="true" min-zoom="1" direction="xy" locked="false">
+	                    <div class="image" style="background-image: url( {{album.imagen}} )"></div>  
+	                </ion-scroll>
+
+	            </div>
+	            <!-- añadimos un espacio vacio para evitar problemas con slidebox y las diapositivas ocultas. Ver post dedicado a SlideBox para más información. -->
+	            <div>&nbsp;</div>
+            </ion-slide-page>
+          </ion-slides>
+
+
+  </ion-content>
+</ion-view>
+<style type="text/css">
+.container{
+   background-color: grey;
+}
+
+.scrollCanvas{
+  width: 100%;
+  height: 100%;
+  background-color: #64686B;
+}
+
+.image{
+    width: 100%;
+    height: 600px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center, center;
+}
+.ds{
+    background-color: grey;
+}
+</style>

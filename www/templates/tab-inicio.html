@@ -1,0 +1,81 @@
+<ion-view view-title="Inicio">  
+  <div class="bar bar-header bar-stable">
+      <h4 </h4>
+      
+      
+      <button class="button button-icon"></button>
+      <div class="h4 title" style='font-family:"Comic Sans MS", cursive, sans-serif'>CC LIBERTAD</div>
+      <button class="button button-icon button-positive"><i class="icon ion-android-share-alt" style="font-size:28px;float:right;margin-right:10px;color:#4C4F52;"></i></button>
+  </div>
+  <ion-content class="padding has-header has-footer">
+    <div class="list card">
+
+      <div class="item item-avatar">
+        <img src="img/{{data.imagen}}" class="animated pulse infinite" style="max-width:50px;max-height:50px">
+        <h4>{{data.hora}}</h4>
+        <p>{{data.fecha}}</p>
+      </div>
+      <div class="item item-body">
+        <div style="width:100%;height:120px;background: url({{data.devocional}});background-size: 100%;background-position:40% 80% ">
+        </div>
+        <br>
+        <a href="#" class="subdued">Versiculo del Dia</a>
+        <a href="#/tab/edificate" class="subdued" style="float:right;margin-left;color:#4A7648">Ver Mas</a>
+    </div>
+    </div>
+     <div class="list card">
+
+          
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-film-marker" style="color:#EB8240"></i>
+          <h2>{{videos.nombre}}</h2>
+          <p>{{videos.fecha}}</p>
+        </a>
+
+       <iframe src="https://player.vimeo.com/video/70722651?autoplay=1&color=c9ff23&title=0&byline=1&portrait=1" width="100%"  frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <a class="item item-icon-left assertive" href="#/tab/videos" style="color:#9E9E9E">
+          <i class="icon ion-videocamera" style="color:#EB8240"></i>
+            Mas Videos
+        </a>
+
+    </div>
+    <div class="list card">
+
+          
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-music-note" style="color:#03AEAC"></i>
+          <h2>{{predica.nombre}}</h2>
+          <p>{{predica.predicador}}</p>
+        </a>
+
+        <div class="item item-image" style="width:100%;height:160px;background: url({{predica.imagen}});background-size: 100%;background-position:40% 20% "">
+         
+        </div>
+
+        <a class="item item-icon-left assertive" href="#" style="color:#9E9E9E">
+          <i class="icon ion-play" style="color:#03AEAC"></i>
+            Iniciar Predica
+        </a>
+
+      </div>
+    <div class="list card">
+
+          
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-image" style="color:#8940A8"></i>
+          <h2>{{galeria.nombre}}</h2>
+          <p></p>
+        </a>
+
+        <div class="item item-image" style="width:100%;height:160px;background: url({{galeria.imagen}});background-size: 100%;background-position:40% 20% "">
+         
+        </div>
+
+        <a class="item item-icon-left assertive" href="#/album/{{galeria.id}}" style="color:#9E9E9E">
+          <i class="icon ion-ios-heart" style="color:#8940A8"></i>
+            Ver Galeria
+        </a>
+
+      </div>
+  </ion-content>
+</ion-view>

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic-audio'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -25,39 +25,108 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-    $stateProvider.state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
-  })
-  .state('tab.list', {
-    url: '/list',
-    views: {
-      'tab-list': {
-        templateUrl: 'templates/tab-list.html',
-        controller: 'ListCtrl'
-      }
-    }
-  })
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  })
+   $stateProvider
   .state('intro', {
     url: '/',
     templateUrl: 'templates/intro.html',
     controller: 'IntroCtrl'
   })
-  .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
-  });
+  
+  .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/tabs.html',
+    controller: 'TabCtrl'
+  })
+
+
+  // Each tab has its own nav history stack:
+
+  .state('tab.inicio', {
+    url: '/inicio',
+    views: {
+      'tab-inicio': {
+        templateUrl: 'templates/tab-inicio.html',
+        controller: 'InicioCtrl'
+      }
+    }
+  })
+
+  .state('tab.grupos', {
+      url: '/grupos',
+      views: {
+        'tab-grupos': {
+          templateUrl: 'templates/tab-grupos.html',
+          controller: 'GruposCtrl'
+        }
+      }
+    })
+
+  .state('tab.multimedia', {
+    url: '/multimedia',
+    views: {
+      'tab-multimedia': {
+        templateUrl: 'templates/tab-multimedia.html',
+        controller: 'MediaCtrl'
+      }
+    }
+   })
+  
+   .state('album-detail', {
+    url: '/album/:ItemId',
+    templateUrl: 'templates/album-fotos.html',
+    controller: 'AlbumCtrl'
+  })
+
+ 
+   .state('tab.videos', {
+    url: '/videos',
+    views: {
+      'tab-multimedia': {
+        templateUrl: 'templates/tab-videos.html',
+        controller: 'VideosCtrl'
+      }
+    }
+   })
+   .state('video-detail', {
+    url: '/video/:Vimeo',
+    templateUrl: 'templates/video-vimeo.html',
+    controller: 'VimeoCtrl'
+   })
+
+  .state('tab.edificate', {
+    url: '/edificate',
+    views: {
+      'tab-edificate': {
+        templateUrl: 'templates/tab-edificate.html',
+        controller: 'EdificateCtrl'
+      }
+    }
+   }) 
+  .state('tab.articulos', {
+    url: '/articulos',
+    views: {
+      'tab-edificate': {
+        templateUrl: 'templates/tab-articulos.html',
+        controller: 'ArticulosCtrl'
+      }
+    }
+   })
+    .state('tab.predicas', {
+    url: '/predicas',
+    views: {
+      'tab-edificate': {
+        templateUrl: 'templates/tab-predicas.html',
+        controller: 'PredicasCtrl'
+      }
+    }
+  })
+    .state('predica-detail', {
+    url: '/predica/:TrackId',
+    templateUrl: 'templates/predica_audio.html',
+    controller: 'PredicaAudioCtrl'
+   })
+
 
   $urlRouterProvider.otherwise('/');
 

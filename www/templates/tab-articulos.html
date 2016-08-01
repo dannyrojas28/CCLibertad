@@ -1,0 +1,14 @@
+<ion-view view-title="Articulos">
+
+  <ion-content class=" has-header">
+		 <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+
+        <ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}" class="item-icon-left">
+          <i class="icon {{item.icono}}" style="font-size:24px;color:#c9c9c9"></i>
+		    {{item.nombre}}
+		     <span class="badge badge-assertive">{{item.badge}}</span>
+        </ion-item>
+
+      </ion-list>
+  </ion-content>
+</ion-view>

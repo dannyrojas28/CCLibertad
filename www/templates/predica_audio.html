@@ -1,0 +1,46 @@
+<ion-view view-title="Predicas">
+		<div class="bar bar-header">
+		  <a class="button button-icon icon ion-chevron-left" href="#/tab/predicas" ></a>
+		  <h5 class="title h5">Predica</h5>
+		</div>
+	<ion-content  class="padding has-header s">
+		
+
+				<ion-slides  options="options" slider="data.slider" style="width:100%;background:#f1f1f1;height:260px">
+		            <ion-slide-page ng-repeat="gale in gal" >
+			               
+				    		<img src="{{gale.foto}}" >
+		            </ion-slide-page>
+		          </ion-slides>
+
+          <ion-audio-track track="track" ng-repeat="track in tracks">
+          	
+			<div  style="bottom:10px;position:absolute;right:0;left:0;">
+	            <div class="item item-divider" style="padding:0">
+		            <center>
+		            	<h5 style="color:#003828;margin:0;font-size:16px">{{tracks.title}}</h5>
+		            	<h5 style="color:#003828;margin:0;font-size:14px">Predicador: {{tracks.artist}}</h5>
+	            	</center>
+	            <hr style="color:#E6E7E8">
+	            <ion-audio-controls>       
+		                	<center>
+		                		<br>
+		                		<h1 class="icon" ion-audio-play text-play="" text-pause="" style="margin:0;display:inline-block"></h1>
+			                    <ion-spinner style="margin:0;"></ion-spinner>
+		                    </center>
+		                </ion-audio-controls>
+	                <ion-audio-progress-bar display-time display-info></ion-audio-progress-bar>
+	            </div>
+	        </div>
+
+        </ion-audio-track>
+
+
+     </ion-content>
+
+</ion-view>
+<style type="text/css">
+	.s{
+		background:#f1f1f1
+	}
+</style>

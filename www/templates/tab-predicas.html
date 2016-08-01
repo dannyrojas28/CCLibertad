@@ -1,0 +1,12 @@
+<ion-view view-title="Predicas">
+  <ion-content class="padding has-header" >
+	  		<div class="list" ng-repeat="track in tracks">
+			    <a class="item item-thumbnail-left" href="#/predica/{{track.id}}">
+			      <img src="{{track.imagen}}" >
+			      <h2>{{track.title}}</h2>
+			      <p>{{track.artist}}</p>
+			         <p style="color:#4A7648">Reproducir <i class="icon ion-play" style="color:#4A7648"></i></p>
+			    </a>
+			</div>
+  </ion-content>
+</ion-view>

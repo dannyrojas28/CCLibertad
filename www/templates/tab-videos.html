@@ -1,0 +1,13 @@
+<ion-view view-title="Videos">
+	
+  <ion-content class="has-header">
+  		<div class="list" ng-repeat="video in videos">
+		    <a class="item item-thumbnail-left" href="#/video/{{video.vimeo}}">
+		      <img src="{{video.imagen}}">
+		      <h2>{{video.nombre}}</h2>
+		      <p>{{video.fecha}}</p>
+		      <i class="icon ion-ios-glasses" style="float:right;margin-right:10px;color:#008E65;font-size:32px"></i>
+		    </a>
+		</div>
+  </ion-content>
+</ion-view>

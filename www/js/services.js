@@ -1,31 +1,50 @@
 angular.module('starter.services', [])
 
-.factory('EventsService', function($http) {
+.factory('Chats', function() {
+  // Might use a resource here that returns a JSON array
+
+  // Some fake testing data
+  var chats = [{
+    id: 0,
+    name: 'Ben Sparrow',
+    lastText: 'You on your way?',
+    face: 'img/ben.png'
+  }, {
+    id: 1,
+    name: 'Max Lynx',
+    lastText: 'Hey, it\'s me',
+    face: 'img/max.png'
+  }, {
+    id: 2,
+    name: 'Adam Bradleyson',
+    lastText: 'I should buy a boat',
+    face: 'img/adam.jpg'
+  }, {
+    id: 3,
+    name: 'Perry Governor',
+    lastText: 'Look at my mukluks!',
+    face: 'img/perry.png'
+  }, {
+    id: 4,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'img/mike.png'
+  }];
+
   return {
     all: function() {
-
-      // TODO: get events from backend
-      var events = [
-        {
-          'speaker': 'Homer Simpson',
-          'title': 'Emprender en servicios web: Compuglobalhipermeganet',
-          'place': 'Sala 5',
-          'date': '15:00'
-        },
-        {
-          'speaker': 'Stewie Griffin',
-          'title': 'Cómo generar ingresos extra siguiendo gordos con una tuba',
-          'place': 'Salón de talleres 1',
-          'date': '17:00'
-        },
-        {
-          'speaker': 'Ralph Wiggum',
-          'title': '¡Corre plátano!',
-          'place': 'Sala 5',
-          'date': '19:00'
+      return chats;
+    },
+    remove: function(chat) {
+      chats.splice(chats.indexOf(chat), 1);
+    },
+    get: function(chatId) {
+      for (var i = 0; i < chats.length; i++) {
+        if (chats[i].id === parseInt(chatId)) {
+          return chats[i];
         }
-      ];
-      return events;
+      }
+      return null;
     }
   };
 });

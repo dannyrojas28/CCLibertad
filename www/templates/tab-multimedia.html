@@ -1,0 +1,16 @@
+<ion-view view-title="Multimedia">
+
+  <ion-content class="has-header ">
+  		 <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+	           <div ng-repeat="item in items"  href="#/album/{{item.id}}"  style="width:48%;display:inline-block;margin:2px">
+			        <div class="item item-divider" style="font-size:15px">
+			          <i class="ion-images"></i>
+			         	{{item.nombre}}
+			        </div>
+			        <a class="item item-list-detail" href="#/album/{{item.id}}">
+			            <img  ng-src="{{item.imagen}}"  class="image-list-thumb" />
+			        </a>
+			    </div>
+	        </ion-list>
+  </ion-content>
+</ion-view>
