@@ -1,9 +1,9 @@
 <ion-view view-title="Albumes">
 <div class="bar bar-header">
   <a class="button button-icon icon ion-chevron-left" href="#/tab/multimedia"></a>
-  <h5 style="margin:5px;text-align: center;position: absolute;">{{nombre}}</h5>
+  <h5 class="title">{{nombre}}</h5>
 </div>
-  <ion-content class="has-header ds">
+  <ion-content class=" ds">
 		   <ion-slides  options="options" slider="data.slider" >
             <ion-slide-page ng-repeat="album in albums" >
                 <div class="container" ng-if="slideVisible($index)" class="scrollCanvas">

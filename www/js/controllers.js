@@ -277,29 +277,55 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 
 })
 
-.controller('GruposCtrl', function($scope, $cordovaGeolocation, $ionicPopup, $state, $ionicLoading) {
+.controller('GruposCtrl', function($scope, $ionicLoading, $compile) {
 
-   var options = {timeout: 100, enableHighAccuracy: true};
- 
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
- 
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
- 
-    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
- 
-  }, function(error){
-     var alertPopup = $ionicPopup.alert({
-            title: 'Error!',
-            template: 'Verifica que la ubicación esté activa y tu dispositivo tenga señal e intenta nuevamente. <br> Si el problema persiste debes reiniciar tu dispositivo!'
+
+        $scope.loading = $ionicLoading.show({
+          content: 'Getting current location...',
+          showBackdrop: false
         });
-  });
 
+        navigator.geolocation.getCurrentPosition(function(pos) {
+              $scope.loading = $ionicLoading.hide({});
+            var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+            
+            var mapOptions = {
+              center: myLatlng,
+              zoom: 16,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map"),
+                mapOptions);
+            
+            //Marker + infowindow + angularjs compiled ng-click
+            var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+            var compiled = $compile(contentString)($scope);
+
+            var infowindow = new google.maps.InfoWindow({
+              content: compiled[0]
+            });
+
+            var marker = new google.maps.Marker({
+              position: myLatlng,
+              map: map,
+              title: 'Uluru (Ayers Rock)'
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open(map,marker);
+            });
+
+            $scope.map = map;
+         }, function(error) {
+            alert('Unable to get location: ' + error.message);
+         });
+      //google.maps.event.addDomListener(window, 'load', initialize);
+     
+      
+      $scope.clickTest = function() {
+        alert('Example of infowindow with ng-click')
+      };
+      
 })
 
 

@@ -1,6 +1,18 @@
 
 <ion-view view-title="Grupos">
-  <ion-content data-tap-disabled="true">
+  <ion-content data-tap-disabled="true" on-ngload="centerOnMe()">
         <div id="map" data-tap-disabled="true"></div>
   </ion-content>
 </ion-view>
+  
+
+    <style type="text/css">
+    	#map {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll {
+  height: 100%;
+}
+    </style>
