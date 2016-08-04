@@ -1,0 +1,48 @@
+<ion-view view-title="ListaGrupos">
+  <ion-content data-tap-disabled="true" class="has-header">
+
+  		<center>
+  			<h5>Nuestro Liderazgo</h5>
+  			<div class="bar bar-header item-input-inset">
+			  <label class="item-input-wrapper">
+			    <i class="icon ion-ios-search placeholder-icon"></i>
+			    <input type="search" placeholder="Nombre o Direccion del lider">
+			  </label>
+			  <button class="button button-clear">
+			    Cancel
+			  </button>
+			</div>
+  		</center>
+  		<ion-list>
+
+	        <div ng-repeat="group in groups">
+	          <ion-item class="item-avatar"  ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
+	             	<img src="venkman.jpg" style="width:45px;height:45px">
+	            	Group {{group.name}}
+	                <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'" style="float:right;margin-right:10px"></i>
+	          </ion-item>
+	          <ion-item class="item-accordion item-avatar" ng-repeat="item in group.items" ng-show="isGroupShown(group)" style="margin-left:10px">
+	            		<img src="venkman.jpg" style="width:35px;height:35px">
+	            	{{item}}
+	          </ion-item>
+	        </div>
+      	</ion-list>
+  </ion-content>
+</ion-view>
+
+<style type="text/css">
+	
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+</style>

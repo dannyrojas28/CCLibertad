@@ -35,3 +35,6 @@ body {
     background-repeat: no-repeat;
     background-position: center, center;
 }
+.scroll {
+        height: 100%;
+    }

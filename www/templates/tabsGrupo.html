@@ -1,0 +1,17 @@
+  <!-- Chats Tab -->
+  <div class="bar bar-header">
+    <a class="button button-icon icon ion-chevron-left" href="#/tab/inicio" ></a>
+    <div class="h1 title">Grupos de Conexion</div>
+    <button class="button button-icon icon ion-information-circled animated pulse infinite" ng-click="openModal($event)"></button>
+  </div>
+  <ion-tabs class="tabs-color-active-positive" style="">
+    <ion-tab title="Home" icon-on="ion-map" icon-off="ion-map" href="#/tabGrup/grupos">          
+      <ion-nav-view name="tabGrup-grupos"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Lista" icon-on="ion-ios-list-outline" icon-off="ion-ios-list-outline" href="#/tabGrup/gruposL">
+      <ion-nav-view name="tabGrup-gruposL"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="About" icon-on="ion-ios-search" icon-off="ion-ios-search" href="#/tabGrup/gruposS">
+    <ion-nav-view name="tabGrup-gruposS"></ion-nav-view>
+    </ion-tab>
+  </ion-tabs>

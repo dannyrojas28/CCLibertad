@@ -1,18 +1,28 @@
 
 <ion-view view-title="Grupos">
-  <ion-content data-tap-disabled="true" on-ngload="centerOnMe()">
-        <div id="map" data-tap-disabled="true"></div>
+  <ion-content data-tap-disabled="true" on-ngload="centerOnMe()" class="has-header">
+        <div id="map" data-tap-disabled="true"></div> 
   </ion-content>
 </ion-view>
   
 
-    <style type="text/css">
-    	#map {
-  width: 100%;
-  height: 100%;
-}
+<style type="text/css">
+ 	#map {
+	  	width: 100%;
+	  	height: 100%;
+      bottom:0px;
+	}
 
-.scroll {
-  height: 100%;
-}
-    </style>
+	.scroll {
+  		height: 100%;
+	}
+	#save-widget {
+        width: 300px;
+        box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+        background-color: white;
+        padding: 10px;
+        font-family: Roboto, Arial;
+        font-size: 13px;
+        margin: 15px;
+	}
+</style>

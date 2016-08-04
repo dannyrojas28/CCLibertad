@@ -38,7 +38,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     templateUrl: 'templates/tabs.html',
     controller: 'TabCtrl'
   })
-
+.state('tabGrup', {
+    url: '/tabGrup',
+    abstract: true,
+    templateUrl: 'templates/tabsGrupo.html',
+    controller: 'TabGrupoCtrl'
+  })
 
   // Each tab has its own nav history stack:
 
@@ -52,12 +57,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     }
   })
 
-  .state('tab.grupos', {
+  .state('tabGrup.grupos', {
       url: '/grupos',
       views: {
-        'tab-grupos': {
+        'tabGrup-grupos': {
           templateUrl: 'templates/tab-grupos.html',
           controller: 'GruposCtrl'
+        }
+      }
+    })
+   .state('tabGrup.gruposL', {
+      url: '/gruposL',
+      views: {
+        'tabGrup-gruposL': {
+          templateUrl: 'templates/tab-lista-grupos.html',
+          controller: 'ListaGruposCtrl'
+        }
+      }
+    })
+
+   .state('tabGrup.gruposS', {
+      url: '/gruposS',
+      views: {
+        'tabGrup-gruposS': {
+          templateUrl: 'templates/tab-search-grupos.html',
+          controller: 'SearchGruposCtrl'
         }
       }
     })
@@ -127,6 +151,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
     controller: 'PredicaAudioCtrl'
    })
 
+  .state('tab.iglesia', {
+    url: '/iglesia',
+    views: {
+      'tab-inicio': {
+        templateUrl: 'templates/tab-iglesia.html',
+        controller: 'IglesiaCtrl'
+      }
+    }
+   })
 
   $urlRouterProvider.otherwise('/');
 

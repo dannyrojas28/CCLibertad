@@ -185,7 +185,11 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 
 
 
-.controller('InicioCtrl', function($scope, $http,$state) {
+.controller('InicioCtrl', function($scope, $http,$state,$ionicLoading, $compile) {
+  $scope.loading = $ionicLoading.show({
+          content: 'Geoloca...',
+          showBackdrop: false
+        });
       //creamos las variables de saludo
       var texto  = "";
       var imagen = "";
@@ -219,6 +223,17 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
   var name =localStorage.getItem('nameccl').split(" ");
   var hora = texto+name[0]+" Dios te bendiga";
   fecha = fecha;
+   var link4 = "http://cclapp.com/SERVER_APP/_controlesApp/video.php";
+  $http.post(link4, {}).then(function (result){
+    console.log(result.data[0].url);
+    var print = result.data;
+        $scope.videos = {
+         "imagen"  : result.data[0].foto,
+         "url"     : result.data[0].url,
+         "fecha"   : result.data[0].fecha,
+         "nombre"  : result.data[0].nombre
+      }
+  });
   //se ejecuta la peticion al servidor para obtener la ultima foto de los albumes y mostrarla
   var link = 'http://cclapp.com/SERVER_APP/_controlesApp/devocional.php';
   $http.post(link, {dia: date.getDay()}).then(function (result){
@@ -232,17 +247,8 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       devocional : result.data[0].imagen
     }
   });      
-  var link4 = "http://cclapp.com/SERVER_APP/_controlesApp/video.php";
-  $http.post(link4, {}).then(function (result){
-    console.log(result);
-    var print = result.data;
-        $scope.videos = {
-         "imagen"  : result.data[0].foto,
-         "url": result.data[0].url,
-         "fecha":result.data[0].fecha,
-         "nombre":result.data[0].nombre
-      }
-  });
+ 
+
   //se ejecuta la peticion al servidor para obtener la ultima foto de los albumes y mostrarla
   var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/album.php';
   $http.post(link2, {}).then(function (result){
@@ -260,66 +266,181 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
     console.log(result);
     var print = result.data;
     $scope.predica = {
+      id          : result.data[0].cod,
       imagen      : result.data[0].imagen,
       predicador  : result.data[0].predicador,
       nombre      : result.data[0].nombre_predica
     }
+
+    $scope.loading = $ionicLoading.hide({});
   });   
   
 })
+
 .controller('TabCtrl', function($scope) {
   console.log('hola')
-  $scope.user = {
-    Name : localStorage.getItem('nameccl')
-  };
+  
+})
+.controller('TabGrupoCtrl', function($scope, $ionicModal) {
+ $ionicModal.fromTemplateUrl('templates/modal-grupos.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+          }).then(function(modal) {
+            $scope.modal = modal;
+          });
+          $scope.openModal = function() {
+            $scope.modal.show();
+          };
+          $scope.closeModal = function() {
+            $scope.modal.hide();
+          };
+          // Cleanup the modal when we're done with it!
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
+          // Execute action on hide modal
+          $scope.$on('modal.hidden', function() {
+            // Execute action
+          });
+          // Execute action on remove modal
+          $scope.$on('modal.removed', function() {
+            // Execute action
+          });
 })
 .controller('AppCtrl', function($scope){
 
 })
 
-.controller('GruposCtrl', function($scope, $ionicLoading, $compile) {
-
-
+.controller('GruposCtrl', function($scope, $ionicLoading, $compile,$http,$cordovaGeolocation) {
         $scope.loading = $ionicLoading.show({
-          content: 'Getting current location...',
+          content: 'Geoloca...',
           showBackdrop: false
         });
+        var posOptions = { 
+             enableHighAccuracy:false,
+            timeout: 50000
+        };
+        var pri =  false;
+      $cordovaGeolocation
+          .getCurrentPosition(posOptions)
+          .then(function (position) {
+            var lat  = position.coords.latitude
+            var long = position.coords.longitude
+          }, function(err) {
+            // error
+            alert("No podemos acceder a tu Ubicación");
+          });
 
-        navigator.geolocation.getCurrentPosition(function(pos) {
-              $scope.loading = $ionicLoading.hide({});
-            var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+
+      var watchOptions = {
+          enableHighAccuracy: false,
+            timeout: 50000
+      };
+
+    var watch = $cordovaGeolocation.watchPosition(watchOptions);
+    watch.then(
+      null,
+      function(err) {
+        // error
+            alert("No podemos acceder a tu Ubicación");
+      },
+      function(position) {
+        if(pri == false){
+          pri=true;
+        var lat  = position.coords.latitude;
+        var long = position.coords.longitude;
+          $scope.loading = $ionicLoading.hide({});
+            var myLatlng = new google.maps.LatLng(lat, long);
             
             var mapOptions = {
               center: myLatlng,
               zoom: 16,
+              zoomControl:false,
+              mapTypeControl:true,
+              scaleControl:false,
+              streetViewControl:true,
+               rotateControl:true,
               mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var map = new google.maps.Map(document.getElementById("map"),
                 mapOptions);
             
-            //Marker + infowindow + angularjs compiled ng-click
-            var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
-            var compiled = $compile(contentString)($scope);
-
-            var infowindow = new google.maps.InfoWindow({
-              content: compiled[0]
-            });
-
+          
+            //MARKER DE MI UBICACION
             var marker = new google.maps.Marker({
               position: myLatlng,
               map: map,
-              title: 'Uluru (Ayers Rock)'
+              title: 'Mi Ubicación',
+              icon: 'img/icono-user.png'
             });
 
-            google.maps.event.addListener(marker, 'click', function() {
-              infowindow.open(map,marker);
+            //MARKER + INFOWINDOW CC PINOS
+            var contentStringP = "<div><img src='img/pjose.png' style='width:100%'><br><center><a style='color:#4A7648;font-size:16px;'>Ver Mas de nosotros</a></center></div>";;
+            var compiledP = $compile(contentStringP)($scope);
+
+            var infowindowP = new google.maps.InfoWindow({
+              content: compiledP[0]
+            });
+            var markerP = new google.maps.Marker({
+              position: new google.maps.LatLng(7.903106, -72.493393),
+              map: map,
+              title: 'CC Pinos',
+              icon: 'img/asa.png'
             });
 
+            google.maps.event.addListener(markerP, 'click', function() {
+              infowindowP.open(map,markerP);
+            });
+
+           //Marker + infowindow + angularjs compiled ng-click  CC LIBERTAD
+            var contentStringL = "<div><img src='img/liber.png' style='width:100%'><br><center><a style='color:#4A7648;font-size:16px;'>Ver Mas de nosotros</a></center></div>";
+            var compiledL = $compile(contentStringL)($scope);
+
+            var infowindowL = new google.maps.InfoWindow({
+              content: compiledL[0]
+            });
+            var markerL = new google.maps.Marker({
+              position: new google.maps.LatLng(7.888210,-72.477557),
+              map: map,
+              title: 'CC Libertad',
+              icon: 'img/asa.png'
+            });
+
+
+            
+            google.maps.event.addListener(markerL, 'click', function() {
+              infowindowL.open(map,markerL);
+            });
+            //peticion al servidor para mostrar todos los grupos de conexion
+              var link = "http://cclapp.com/SERVER_APP/_controlesApp/puntos.php";
+              $http.post(link, {}).then(function (result){
+                console.log(result);
+                var print = result.data;
+                var infowindowG = new google.maps.InfoWindow({content: ''});
+                for(var i = 0; i < result.data.length;i++){
+                    if(print[i].tipo == 2){
+                          //Marker + infowindow + angularjs compiled ng-click  CC LIBERTAD
+                          var markerG = new google.maps.Marker({
+                            position: new google.maps.LatLng(print[i].latitud,print[i].longitud),
+                            map: map,
+                            title: print[i].lider,
+                            icon: 'img/casa_icon2.png'
+                          }); 
+                           var contentStringG = "<div class='list'><center><h5>Grupo de Conexion</h5></center> <a class='item item-thumbnail-left' href='#'><img src='http://cclapp.com/imagenes_lideres/"+print[i].imagen+"' style='width:100px;height:90px;'><h2>"+print[i].lider+"</h2><p>"+print[i].direccion+"</p><p>Ver Mas..</p></a></div>";
+                           
+                          (function(markerG,contentStringG) {            
+                            google.maps.event.addListener(markerG, 'click', function() {
+                              infowindowG.setContent(contentStringG);
+                              infowindowG.open(map,markerG);
+                            });
+                          })(markerG,contentStringG);
+                    }
+                }
+              });
             $scope.map = map;
-         }, function(error) {
-            alert('Unable to get location: ' + error.message);
-         });
-      //google.maps.event.addDomListener(window, 'load', initialize);
+
+        }
+    });
      
       
       $scope.clickTest = function() {
@@ -328,9 +449,39 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       
 })
 
+.controller('ListaGruposCtrl', function($scope){
+  $scope.groups = [];
+  for (var i=0; i<10; i++) {
+    $scope.groups[i] = {
+      name: i,
+      items: [],
+      show: false
+    };
+    for (var j=0; j<3; j++) {
+      $scope.groups[i].items.push(i + '-' + j);
+    }
+  }
+  
+  /*
+   * if given group is the selected group, deselect it
+   * else, select the given group
+   */
+  $scope.toggleGroup = function(group) {
+    group.show = !group.show;
+  };
+  $scope.isGroupShown = function(group) {
+    return group.show;
+  };
+})
+.controller('SearchGruposCtrl', function($scope){
 
-.controller('MediaCtrl', function($scope, $ionicModal,$state,$http) {
+})
 
+.controller('MediaCtrl', function($scope,$ionicLoading, $ionicModal,$state,$http) {
+    $scope.loading = $ionicLoading.show({
+      content: 'Geoloca...',
+      showBackdrop: false
+    });
   var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/album.php';
   $http.post(link2, {}).then(function (result){
     console.log(result);
@@ -340,19 +491,20 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       console.log(result.data[i].nombre)
       $scope.items.push({ "imagen"  : result.data[i].url, "nombre"  : result.data[i].nombre, "id"  : result.data[i].id});
       }
+      $scope.loading = $ionicLoading.hide({});
     }) 
 })
+
 .controller('AlbumCtrl',function($scope, $stateParams,$http,  $ionicBackdrop, $ionicModal, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
   var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/fotos.php';
   $http.post(link2, {id:$stateParams.ItemId}).then(function (result){
     console.log(result);
     var print = result.data;
     $scope.albums = [];
-    console.log( result.data[0].nombre)
+    console.log( result.data[1].url)
     for(var i = 1; i < result.data.length;i++){
-      $scope.albums.push({ "imagen"  : result.data[i].url});
-
-    $scope.nombre  = result.data[i].nombre;
+        $scope.albums.push({ "imagen"  : result.data[i].url});
+        $scope.nombre  = result.data[i].nombre;
       }
     }) 
     $scope.zoomMin = 1;
@@ -447,7 +599,11 @@ console.log(vimeo)
 
 
 })
-.controller('PredicasCtrl', function($scope, $http,$state) {
+.controller('PredicasCtrl', function($scope, $http,$state,$ionicLoading) {
+    $scope.loading = $ionicLoading.show({
+      content: 'Geoloca...',
+      showBackdrop: false
+    });
    var link3 = 'http://cclapp.com/SERVER_APP/_controlesApp/predicas.php';
    $http.post(link3, {}).then(function (result){
     console.log(result);
@@ -455,7 +611,7 @@ console.log(vimeo)
     for(var i = 0; i < result.data.length;i++){
       $scope.tracks.push({"id": result.data[i].cod,"title":result.data[i].nombre_predica,"artist":result.data[i].predicador,"imagen":result.data[i].imagen});
     }
-
+      $scope.loading = $ionicLoading.hide({});
   });   
   
 })
@@ -469,11 +625,11 @@ console.log(vimeo)
    var link3 = 'http://cclapp.com/SERVER_APP/_controlesApp/predica_audio.php';
    $http.post(link3, {predicaId:id}).then(function (result){
     console.log(result);
-    $scope.tracks = {
+    $scope.tracks = [{
         "title"   :result.data[0].nombre_predica,
         "artist"  :result.data[0].predicador,
         "url"     :result.data[0].mp3
-    };
+    }];
      $scope.gal = [];
 
     if(result.data[0].foto_album != ""){
@@ -512,6 +668,8 @@ console.log(vimeo)
   });
 })
 
+.controller("IglesiaCtrl", function($scope) {
+})
 
 .controller("ExampleController", function($scope) {
  
