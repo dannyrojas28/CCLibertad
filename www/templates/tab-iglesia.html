@@ -4,22 +4,43 @@
       <button class="button button-icon"></button>
       <div class="h4 title">CC Libertad</div>
   </div>
-  <ion-content data-tap-disabled="true" on-ngload="centerOnMe()" class="has-header">
+  <ion-content on-ngload="centerOnMe()" class="has-header">
   			<ion-slides  options="options" slider="data.slider" style="width:100%;background:#f1f1f1;height:290px">
 		            <ion-slide-page ng-repeat="gale in gal" >
 			               
 				    		<img src="{{gale.foto}}" >
 		            </ion-slide-page>
 		          </ion-slides>
-		   <br>
-		   <h5>Nos diferenciamos por una iglesia en constante movimiento e influencia en el sector del barrio La Libertad, nuestra capacidad es de 300 personas </h5>
-		   <hr> <h5 style="">¿Sabes como llegar?</h5>
+        
+        <div class="card">
+           <div class="item item-text-wrap">
+            Nos diferenciamos por una iglesia en constante movimiento e influencia en el sector del barrio La Libertad, nuestra capacidad es de 300 personas
+          </div>
+          <div class="item item-divider">
+            ¿Sabes como llegar?
+          </div>
+        </div>
         <div id="map4" data-tap-disabled="true"></div> 
-        <center>
-        	<h1 class="icon ion-social-facebook"></h1>
-        	<h1 class="icon ion-social-twitter"></h1>
-        </center>
-        <p>Llamanos para darte mas informacion 5951593</p>
+        <div class="card">
+          <div class="item item-divider">
+            Redes Sociales
+          </div>
+          <div class="item item-text-wrap">
+            <div class="row" style="text-align:center">
+              <div class="col">
+                <h1 class="icon ion-social-facebook" style="color: #3b5998"></h1>
+                <a href="https://www.facebook.com/CCLibertad">Ver Facebook</a>
+              </div>
+              <div class="col">
+                 <h1 class="icon ion-social-twitter" style="color: #81BEF7"></h1>
+                <a href="https://twitter.com/CC_Libertad">Ver Twitter</a>
+              </div>
+            </div>
+            <hr>
+            <p>Llamanos para darte mas informacion 5951593</p>
+            
+          </div>
+        </div>
   </ion-content>
 
  </ion-view>
@@ -31,9 +52,7 @@
       bottom:0px;
 	}
 
-	.scroll {
-  		height: 100%;
-	}
+	
 	#save-widget {
         width: 300px;
         box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;

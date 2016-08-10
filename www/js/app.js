@@ -198,6 +198,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
     }
    })
+  .state('tab.peticion', {
+    url: '/peticion',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-peticion.html',
+        controller: 'PeticionCtrl'
+      }
+    }
+   })
+  .state('tab.consejo', {
+    url: '/consejo',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-consejo.html',
+        controller: 'ConsejoCtrl'
+      }
+    }
+   })
   $urlRouterProvider.otherwise('/');
 
 });

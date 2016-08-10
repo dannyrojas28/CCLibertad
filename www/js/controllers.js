@@ -591,6 +591,16 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
                           directionsService.route(request, function(response, status) {
                             if (status == 'OK') {
                               // Display the route on the map.
+                              directionsDisplay.setOptions( 
+                                                        { 
+                                                          suppressMarkers: true,
+                                                          polylineOptions: {
+                                                            strokeWeight: 4,
+                                                            strokeOpacity: 1,
+                                                            strokeColor:  '#4A7648' 
+                                                          }
+                                                         } 
+                              );
                               directionsDisplay.setDirections(response);
                             }
                           }); 
@@ -940,6 +950,16 @@ console.log(vimeo)
                           directionsService.route(request, function(response, status) {
                             if (status == 'OK') {
                               // Display the route on the map.
+                              directionsDisplay.setOptions( 
+                                                        { 
+                                                          suppressMarkers: true,
+                                                          polylineOptions: {
+                                                            strokeWeight: 4,
+                                                            strokeOpacity: 1,
+                                                            strokeColor:  '#4A7648' 
+                                                          }
+                                                         } 
+                              );
                               directionsDisplay.setDirections(response);
                             }
                           }); 
@@ -1103,7 +1123,12 @@ console.log(vimeo)
       }
     })
 })
+.controller("PeticionCtrl", function($scope,$http) {
 
+})
+.controller("ConsejoCtrl", function($scope,$http) {
+
+})
 .controller("ExampleController", function($scope) {
 })
 
