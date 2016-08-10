@@ -19,30 +19,48 @@
         <div style="width:100%;height:120px;background: url({{data.devocional}});background-size: 100%;background-position:40% 80% ">
         </div>
         <br>
-        <a href="#" class="subdued">Versiculo del Dia</a>
+        <a href="#/tab/edificate" class="subdued">Versiculo del Dia</a>
         <a href="#/tab/edificate" class="subdued" style="float:right;margin-left;color:#4A7648">Ver Mas</a>
     </div>
     </div>
      <div class="list card">
 
           
-        <a href="#" class="item item-icon-left">
-          <i class="icon ion-film-marker" style="color:#EB8240"></i>
+        <a  class="item item-icon-left">
+          <i class="icon ion-film-marker" style="color:#049C1C"></i>
           <h2>{{videos.nombre}}</h2>
           <p>{{videos.fecha}}</p>
         </a>
 
-       <iframe src="https://player.vimeo.com/video/177426521?color=c9ff23&title=0&byline=0&portrait=0" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+       <iframe ng-src="{{trustSrc(movie.src)}}" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <a class="item item-icon-left assertive" href="#/tab/videos" style="color:#9E9E9E">
-          <i class="icon ion-videocamera" style="color:#EB8240"></i>
+          <i class="icon ion-videocamera" style="color:#049C1C"></i>
             Mas Videos
         </a>
 
     </div>
+    <div class="list card" id="list-cumple">
+
+      <div class="item item-avatar">
+        <img src="img/torta.png">
+        <h2>Cumpleañeros del Dia</h2>
+      </div>
+
+      <div class="item item-body">
+        <div ng-repeat="cumple in cumples">
+          <p href="#" class="item item-icon-left">
+            <i class="icon ion-record" style="font-size:12px"></i>
+             {{cumple.nombre}}  
+          </p>
+        </div>
+      </div>
+
+    </div>
+
     <div class="list card">
 
           
-        <a href="#" class="item item-icon-left">
+        <a href="#/predica/{{predica.id}}" class="item item-icon-left">
           <i class="icon ion-music-note" style="color:#03AEAC"></i>
           <h2>{{predica.nombre}}</h2>
           <p>{{predica.predicador}}</p>
@@ -58,10 +76,11 @@
         </a>
 
       </div>
+
     <div class="list card">
 
           
-        <a href="#" class="item item-icon-left">
+        <a href="#/album/{{galeria.id}}" class="item item-icon-left">
           <i class="icon ion-image" style="color:#8940A8"></i>
           <h2>{{galeria.nombre}}</h2>
           <p></p>

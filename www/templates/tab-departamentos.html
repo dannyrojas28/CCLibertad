@@ -1,0 +1,19 @@
+<ion-view view-title="Inicio">  
+  <div class="bar bar-header bar-stable">
+      <h4> </h4>
+      <button class="button button-icon"></button>
+      <div class="h4 title">Nuestros Departamentos</div>
+      <button class="button button-icon icon ion-information-circled animated pulse infinite" ng-click="openModal($event)"></button>
+  </div>
+  <ion-content class="padding has-header has-footer">
+    <div class="list" >
+    	<div ng-repeat="dpto in dptos">	
+		    <a class="item item-avatar" href="#/dpto/{{dpto.id}}">
+		      <img src="http://cclapp.com/dpto/iconos/{{dpto.icono}}" style="border-radius:0px">
+		      <h2> {{dpto.departamento}}</h2>
+		    </a>
+    	</div>
+	</div>
+  </ion-content>
+
+ </ion-view>

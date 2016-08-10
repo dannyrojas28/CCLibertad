@@ -1,0 +1,16 @@
+<ion-view view-title="Inicio">  
+  <ion-content class=" has-footer"> 
+
+    <img src="img/cumple.png"  style="width:100%" class="animated pulse">
+    <div class="list card" id="list">
+      <div ng-repeat="cumple in cumples">
+          <a href="#" class="item item-icon-left item-icon-right">
+            <i class="icon ion-checkmark"></i>
+             {{cumple.nombre}}  
+            <i class="icon ion-email"></i>
+          </a>
+      </div>
+    </div>
+  </ion-content>
+
+ </ion-view>

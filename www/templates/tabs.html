@@ -1,7 +1,6 @@
   <ion-side-menus>
         <ion-side-menu-content ng-controller="NavCtrl">
               <ion-tabs class=" tabs-color-active-positive" >
-
                 <!-- Dashboard Tab -->
                 <ion-tab  icon-off="ion-ios-home" icon-on="ion-ios-home" href="#/tab/inicio" >
                   <ion-nav-view name="tab-inicio"></ion-nav-view>
@@ -53,7 +52,6 @@
                 <ion-tab icon-off="ion-navicon-round" icon-on="ion-navicon-round" ng-click="showRightMenu()">
 
                   <ion-nav-view name="tab-menu">
-                      
                   </ion-nav-view>
                 </ion-tab>
 
@@ -87,35 +85,39 @@
               <center><img ng-src="img/logo2.png" style="width:170px"></center>
             <div class="list">
 
-              <a class="item item-icon-left" href="#/tab/iglesia">
+              <a class="item item-icon-left" href="#/tab/iglesia" ng-click="toggleMenu()"> 
                 <i class="icon ion-home" style="font-size:28px;color: #4C4F52;"></i>
                 Nuestra Iglesia
               </a>
 
-              <a class="item item-icon-left" href="#">
+              <a class="item item-icon-left" href="#/tab/departamentos" ng-click="toggleMenu()">
                 <i class="icon ion-person-stalker" style="font-size:28px;color: #4C4F52;"></i>
                 Nuestros Departamentos
               </a>
 
-              <a class="item item-icon-left" href="#">
-                <i class="icon ion-wand" style="font-size:28px;color: #4C4F52;"></i>
+              <a class="item item-icon-left" href="#/tab/cumpleanos" ng-click="toggleMenu()">
+                <i class="icon ion-wand" style="font-size:28px;color: #4C4F52;" ></i>
                 Nuestros Cumpleañeros
               </a>
 
-              <a class="item item-icon-left" href="#">
+              <a class="item item-icon-left" href="#"  ng-click="toggleMenu()">
                 <i class="icon ion-calendar" style="font-size:28px;color: #4C4F52;"></i>
                 Actividades
               </a>
-              <a class="item item-icon-left" href="#">
+              <a class="item item-icon-left" href="#"  ng-click="toggleMenu()">
                 <i class="icon ion-compose" style="font-size:28px;color: #4C4F52;"></i>
                 Enviar mi Peticion
               </a>
-              <a class="item  item-icon-left" href="#">
-                <i class="icon ion-happy-outline" style="font-size:28px;color: #4C4F52;"></i>
+              <a class="item  item-icon-left" href="#" ng-click="toggleMenu()">
+                <i class="icon ion-happy-outline" style="font-size:28px;color: #4C4F52;" ></i>
                Programar un Consejo
               </a>
-              <a class="item item-icon-left" href="#">
-                <i class="icon ion-gear-a" style="font-size:28px;color: #4C4F52;"></i>
+               <a class="item item-icon-left" href="#/tab/acerca" ng-click="toggleMenu()"> 
+                <i class="icon ion-information-circled" style="font-size:28px;color: #4C4F52;"></i>
+                Acerda de Nosotros
+              </a>
+              <a class="item item-icon-left" href="#" ng-click="toggleMenu()">
+                <i class="icon ion-gear-a" style="font-size:28px;color: #4C4F52;" ></i>
                 Configuraciones
               </a>
             </div>

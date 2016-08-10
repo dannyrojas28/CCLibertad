@@ -2,45 +2,45 @@
   <div class="bar bar-header bar-stable">
       <h4> </h4>
       <button class="button button-icon"></button>
-      <div class="h4 title">Mi Iglesia</div>
+      <div class="h4 title">CC Libertad</div>
   </div>
-  <ion-content class="padding has-header has-footer">
-  	<center><img src="img/pjose.png" style="width:100% !important;height:100% !important;"></center><br>
-<center><i style="font-size:18px;font-style:bold">Apostol Jose Satirio Dos Santos y Esposa</i></center><br>
-
-<hr>
-	<center><h5 >Nuestra Congregación</h5></center>
-	<center><img src="img/liber.png" style="width:100% !important;height:100% !important;"></center><br>
-<center><i style="font-size:18px;font-style:bold;margin-left:5px">Centro Cristiano Libertad</i></center><br>
-<hr>
-						<center><img src="img/panfi.png" style="width:100% !important;height:100% !important;"></center><br>
-						<center><i style="font-size:18px;font-style:bold;margin-left:5px">Pastores Anfitriones</i></center>
-						<h3>
-			<div class="row">
-				<div class="col s12 ">
-			
-						<br><center><p style="font-size:16px;">Visión</p></center>
-						<p style="font-size:13px;text-align : justify;color:#000;">¿Hacia dónde nos proyectamos ?<br>
-							Hacer de Cúcuta, de la región y de Colombia, espacios donde el amor y los principios del Reino de Dios estén presentes en todas las áreas de la vida
-							personal y social, como modelo yplataforma de la misión mundial.  Hechos 1.8</p>
-						<hr style="color:#2F332E">
-						<br><center><p style="font-size:16px;">Misión</p></center>
-						<p style="font-size:13px;text-align : justify;color:#000;">¿Cómo lo estamos logrando?<br>
-							Buscamos a hombres y mujeres que no conocen de Jesucristo y los guiamos a la salvación. Luego los discipulamos y capacitamos para que asuman un
-							compromiso con Cristo y con su iglesia. Formamos de ellos líderes autónomos, responsables y trascendentes. LEVANTANDO así una generación
-							de conquista: consumadores de la palabra y dispuestos a llevar el Evangelio sin mirar el precio. Mateo 28.19-20</p>
-							<hr style="color:#2F332E">
-
-						<center><p>PASTORES <br>
-JORGE RODRIGUEZ Y JULY MOLINA <br>
-DIRECCIÓN: CALLE 16 No. 11-76 ESQUINA LA LIBERTAD <br>
-TELEFONO: 5951593<br>
-CENTROCRISTIANOLIBERTAD@HOTMAIL.COM <br></p></center>
-				</div>
-  <div class="col s12"><br><br><br></div>
-
-			</div>
-
+  <ion-content data-tap-disabled="true" on-ngload="centerOnMe()" class="has-header">
+  			<ion-slides  options="options" slider="data.slider" style="width:100%;background:#f1f1f1;height:290px">
+		            <ion-slide-page ng-repeat="gale in gal" >
+			               
+				    		<img src="{{gale.foto}}" >
+		            </ion-slide-page>
+		          </ion-slides>
+		   <br>
+		   <h5>Nos diferenciamos por una iglesia en constante movimiento e influencia en el sector del barrio La Libertad, nuestra capacidad es de 300 personas </h5>
+		   <hr> <h5 style="">¿Sabes como llegar?</h5>
+        <div id="map4" data-tap-disabled="true"></div> 
+        <center>
+        	<h1 class="icon ion-social-facebook"></h1>
+        	<h1 class="icon ion-social-twitter"></h1>
+        </center>
+        <p>Llamanos para darte mas informacion 5951593</p>
   </ion-content>
 
  </ion-view>
+
+ <style type="text/css">
+ 		#map4 {
+	  	width: 100%;
+	  	height: 50%;
+      bottom:0px;
+	}
+
+	.scroll {
+  		height: 100%;
+	}
+	#save-widget {
+        width: 300px;
+        box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+        background-color: white;
+        padding: 10px;
+        font-family: Roboto, Arial;
+        font-size: 13px;
+        margin: 15px;
+	}
+ </style>

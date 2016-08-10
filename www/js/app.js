@@ -85,7 +85,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
         }
       }
     })
-
+   .state('grupo-detail', {
+    url: '/grupo/:ItemId',
+    templateUrl: 'templates/grupo-info.html',
+    controller: 'GrupoDetailCtrl'
+  })
+   
   .state('tab.multimedia', {
     url: '/multimedia',
     views: {
@@ -154,13 +159,45 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
   .state('tab.iglesia', {
     url: '/iglesia',
     views: {
-      'tab-inicio': {
+      'tab-menu': {
         templateUrl: 'templates/tab-iglesia.html',
         controller: 'IglesiaCtrl'
       }
     }
    })
-
+   .state('tab.departamentos', {
+    url: '/departamentos',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-departamentos.html',
+        controller: 'DepartamentosCtrl'
+      }
+    }
+   })
+   .state('dpto-detail', {
+    url: '/dpto/:ItemId',
+    templateUrl: 'templates/dpto-info.html',
+    controller: 'DptoCtrl'
+  })
+   
+   .state('tab.cumpleanos', {
+    url: '/cumpleanos',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-cumpleanos.html',
+        controller: 'CumpleanosCtrl'
+      }
+    }
+   })
+  .state('tab.acerca', {
+    url: '/acerca',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-acerca.html',
+        controller: 'AcercaCtrl'
+      }
+    }
+   })
   $urlRouterProvider.otherwise('/');
 
 });

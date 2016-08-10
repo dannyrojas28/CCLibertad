@@ -7,6 +7,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
     $ionicSideMenuDelegate.toggleRight();
   };
 })
+
+
+
 .controller('IntroCtrl', function($ionicPlatform,$scope, $state, $ionicSlideBoxDelegate,  $stateParams,$ionicPopup, $http, $sce, $ionicModal,$ionicLoading,$filter,$cordovaDevice) {
   // Called to navigate to the main app
   //localStorage.removeItem('nameccl');
@@ -185,7 +188,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 
 
 
-.controller('InicioCtrl', function($scope, $http,$state,$ionicLoading, $compile) {
+.controller('InicioCtrl', function($scope, $http,$state,$ionicLoading, $compile,$sce) {
   $scope.loading = $ionicLoading.show({
           content: 'Geoloca...',
           showBackdrop: false
@@ -229,11 +232,16 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
     var print = result.data;
         $scope.videos = {
          "imagen"  : result.data[0].foto,
-         "url"     : result.data[0].url,
+         "url"     : "https://player.vimeo.com/video/"+result.data[0].url+"?color=c9ff23&title=0&byline=0&portrait=0",
          "fecha"   : result.data[0].fecha,
          "nombre"  : result.data[0].nombre
       }
+     $scope.movie = {src:"https://player.vimeo.com/video/"+result.data[0].url+"?color=c9ff23&title=0&byline=0&portrait=0", title:result.data[0].nombre};
   });
+
+  $scope.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+  }
   //se ejecuta la peticion al servidor para obtener la ultima foto de los albumes y mostrarla
   var link = 'http://cclapp.com/SERVER_APP/_controlesApp/devocional.php';
   $http.post(link, {dia: date.getDay()}).then(function (result){
@@ -274,11 +282,29 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 
     $scope.loading = $ionicLoading.hide({});
   });   
+   var link5 = 'http://cclapp.com/SERVER_APP/_controlesApp/cumpleanos.php';
+    $http.post(link5, {}).then(function (result){
+      console.log(result);
+      $scope.cumples= [];
+      if( result.data[0].nombre != "false"){
+        for(var i = 0; i < result.data.length;i++){
+           $scope.cumples.push({ "nombre"  : result.data[i].nombre});
+        }
+      }else{
+        $('#list-cumple').css("display","none");
+      }
+    })
   
 })
 
-.controller('TabCtrl', function($scope) {
-  console.log('hola')
+.controller('TabCtrl', function($scope,$ionicSideMenuDelegate) {
+  $scope.toggleMenu = function() {
+        if($ionicSideMenuDelegate.isOpenRight()) {
+            $ionicSideMenuDelegate.toggleRight(false);
+        } else {
+            $ionicSideMenuDelegate.toggleRight(true);
+        }
+    }
   
 })
 .controller('TabGrupoCtrl', function($scope, $ionicModal) {
@@ -345,10 +371,15 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
             alert("No podemos acceder a tu Ubicación");
       },
       function(position) {
+        lat  = position.coords.latitude;
+        long = position.coords.longitude;
+
+        localStorage.setItem('lat',lat);
+        localStorage.setItem('long',long);
+        console.log(lat,long);
+
         if(pri == false){
           pri=true;
-        var lat  = position.coords.latitude;
-        var long = position.coords.longitude;
           $scope.loading = $ionicLoading.hide({});
             var myLatlng = new google.maps.LatLng(lat, long);
             
@@ -426,7 +457,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
                             title: print[i].lider,
                             icon: 'img/casa_icon2.png'
                           }); 
-                           var contentStringG = "<div class='list'><center><h5>Grupo de Conexion</h5></center> <a class='item item-thumbnail-left' href='#'><img src='http://cclapp.com/imagenes_lideres/"+print[i].imagen+"' style='width:100px;height:90px;'><h2>"+print[i].lider+"</h2><p>"+print[i].direccion+"</p><p>Ver Mas..</p></a></div>";
+                           var contentStringG = "<div class='list'><center><h5>Grupo de Conexion</h5></center> <a class='item item-thumbnail-left' href='#/grupo/"+print[i].cod+"'><img src='http://cclapp.com/imagenes_lideres/"+print[i].imagen+"' style='width:100px;height:90px;'><h2>"+print[i].lider+"</h2><p>"+print[i].direccion+"</p><p>Ver Mas..</p></a></div>";
                            
                           (function(markerG,contentStringG) {            
                             google.maps.event.addListener(markerG, 'click', function() {
@@ -444,23 +475,36 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
      
       
       $scope.clickTest = function() {
-        alert('Example of infowindow with ng-click')
+       // alert('Example of infowindow with ng-click')
       };
       
 })
 
-.controller('ListaGruposCtrl', function($scope){
-  $scope.groups = [];
-  for (var i=0; i<10; i++) {
-    $scope.groups[i] = {
-      name: i,
-      items: [],
-      show: false
-    };
-    for (var j=0; j<3; j++) {
-      $scope.groups[i].items.push(i + '-' + j);
-    }
-  }
+.controller('ListaGruposCtrl', function($scope,   $ionicLoading,$http){
+  
+    var link = "http://cclapp.com/SERVER_APP/_controlesApp/puntos.php";
+      $http.post(link, {}).then(function (result){
+          $scope.groups = [];
+          console.log(result);
+          var ing=0;
+          var pos = 0;
+          var print = result.data;
+          for (var i=0;i < print.length; i++) {
+              if (print[i].tipo == 1) {
+                 pos = ing;
+                  $scope.groups[pos] = {
+                  name: print[i].lider,
+                  imagen : print[i].imagen,
+                  direccion : print[i].direccion,
+                  items: [],
+                  show: false
+                };
+                ing = parseInt(ing) + 1;
+              }else{
+                $scope.groups[pos].items.push({"entrenador":print[i].lider,"imagen":print[i].imagen,"direccion":print[i].direccion,'id':print[i].cod});
+              }
+          }
+      });
   
   /*
    * if given group is the selected group, deselect it
@@ -473,9 +517,135 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
     return group.show;
   };
 })
+
+
 .controller('SearchGruposCtrl', function($scope){
 
 })
+
+
+.controller('GrupoDetailCtrl', function($scope,$stateParams,$http,$cordovaGeolocation){
+  var id = $stateParams.ItemId;
+  var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/puntos.php';
+    $http.post(link2, {id:id}).then(function (result){
+      document.getElementById("map2").innerHTML = "";
+      console.log(result);
+      var print = result.data;
+      $scope.grupo = {
+        imagen      : print[0].imagen,
+        nombre      : print[0].lider,
+        hora        : print[0].hora,
+        celular     : print[0].celular,
+        direccion   : print[0].direccion
+      }
+
+      var markerG;
+     
+      lat   = parseFloat(localStorage.getItem('lat'));
+      long  = parseFloat(localStorage.getItem('long'));
+
+      latD= parseFloat(print[0].latitud);
+      lonD= parseFloat(print[0].longitud);
+
+      console.log("mi punto "+lat,long)
+      console.log("grupo    "+latD,lonD);
+
+      myLatlng = new google.maps.LatLng(lat, long);
+                 mapOptions = {
+                            center: myLatlng,
+                            zoom: 16,
+                            zoomControl:false,
+                            mapTypeControl:true,
+                            scaleControl:false,
+                            streetViewControl:true,
+                             rotateControl:true,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                          };
+                           map = new google.maps.Map(document.getElementById("map2"),
+                              mapOptions);
+                            directionsDisplay = new google.maps.DirectionsRenderer({
+                            map: map
+                          }); 
+                        console.log('2ls')
+                          //MARKER DE MI UBICACION
+                           marker = new google.maps.Marker({
+                            position: myLatlng,
+                            map: map,
+                            title: 'Mi Ubicación',
+                            icon: 'img/icono-user.png'
+                          });
+
+                          markerG = {lat: latD, lng: lonD};
+                          markerG = new google.maps.Marker({
+                            position: new google.maps.LatLng(latD,lonD),
+                            map: map,
+                            title: print[0].lider,
+                            icon: 'img/casa_icon2.png'
+                          }); 
+                          request = {
+                           destination: {lat: latD, lng: lonD},
+                            origin: {lat: lat, lng: long},
+                            travelMode: 'DRIVING'
+                          };
+                          directionsService = new google.maps.DirectionsService();
+                          directionsService.route(request, function(response, status) {
+                            if (status == 'OK') {
+                              // Display the route on the map.
+                              directionsDisplay.setDirections(response);
+                            }
+                          }); 
+       var posOptions = { 
+             enableHighAccuracy:false,
+            timeout: 50000
+        };
+
+        var prid =  false;
+          $cordovaGeolocation
+              .getCurrentPosition(posOptions)
+              .then(function (position) {
+                var lat  = position.coords.latitude
+                var long = position.coords.longitude
+              }, function(err) {
+                // error
+               // alert("No podemos acceder a tu Ubicación");
+              });
+
+
+          var watchOptions = {
+              enableHighAccuracy: false,
+                timeout: 50000
+          };
+
+        var watch = $cordovaGeolocation.watchPosition(watchOptions);
+        watch.then(
+          null,
+          function(err) {
+            // error
+               // alert("No podemos acceder a tu Ubicación");
+          },
+          function(position) {
+            console.log("3")
+            if(prid == false){
+              prid=true;
+                lat  = position.coords.latitude;
+                long = position.coords.longitude;
+                console.log(lat,long)
+                localStorage.removeItem('lat');
+                localStorage.removeItem('long');
+                localStorage.setItem('lat',lat);
+                localStorage.setItem('long',long);
+                 
+                 markerG.setMap(null); 
+            }
+          });
+    })
+
+    $scope.sd = function() {
+      //alert(23)
+      window.location="#/tabGrup/gruposL";
+    }
+})
+
 
 .controller('MediaCtrl', function($scope,$ionicLoading, $ionicModal,$state,$http) {
     $scope.loading = $ionicLoading.show({
@@ -668,17 +838,276 @@ console.log(vimeo)
   });
 })
 
-.controller("IglesiaCtrl", function($scope) {
+.controller("IglesiaCtrl", function($scope, $cordovaGeolocation,$ionicSlideBoxDelegate){
+       
+    $scope.gal = [{"foto": "https://c6.staticflickr.com/8/7712/26491811853_4ba991c689_c.jpg"},
+      {"foto": "https://c8.staticflickr.com/2/1444/26121671255_f4d0d14e3f_c.jpg"},
+      {"foto": "https://c8.staticflickr.com/2/1543/24836593799_8dd362171f_c.jpg"},
+      {"foto": "https://c1.staticflickr.com/8/7487/27908515736_10fdc08d31_c.jpg"},
+      {"foto": "https://c8.staticflickr.com/8/7755/28333214135_e3a656d88b_c.jpg"}];
+    
+    
+    $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
+        // data.slider is the instance of Swiper
+        $scope.slider = data.slider;
+    });
+    $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+        console.log('Slide change is beginning');
+    });
+
+   $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
+        // note: the indexes are 0-based
+        $scope.activeIndex = data.slider.activeIndex;
+        $scope.previousIndex = data.slider.previousIndex;
+  });
+ 
+       var posOptions = { 
+             enableHighAccuracy:false,
+            timeout: 50000
+        };
+
+        var pridd =  false;
+          $cordovaGeolocation
+              .getCurrentPosition(posOptions)
+              .then(function (position) {
+                var lat  = position.coords.latitude
+                var long = position.coords.longitude
+              }, function(err) {
+                // error
+               // alert("No podemos acceder a tu Ubicación");
+              });
+
+
+          var watchOptions = {
+              enableHighAccuracy: false,
+                timeout: 50000
+          };
+
+        var watch = $cordovaGeolocation.watchPosition(watchOptions);
+        watch.then(
+          null,
+          function(err) {
+            // error
+               // alert("No podemos acceder a tu Ubicación");
+          },
+          function(position) {
+            console.log("3")
+            if(pridd == false){
+              pridd=true;
+                lat  =  parseFloat(position.coords.latitude);
+                long =  parseFloat(position.coords.longitude);
+               latD  =  parseFloat("7.888210");
+               lonD  =  parseFloat("-72.477557");
+                myLatlng = new google.maps.LatLng(lat, long);
+                 mapOptions = { 
+                            center: myLatlng,
+                            zoom: 16,
+                            zoomControl:false,
+                            mapTypeControl:true,
+                            scaleControl:false,
+                            streetViewControl:true,
+                             rotateControl:true,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                          };
+
+                           map = new google.maps.Map(document.getElementById("map4"),
+                              mapOptions);
+                            directionsDisplay = new google.maps.DirectionsRenderer({
+                            map: map
+                          }); 
+                        console.log('2ls')
+                          //MARKER DE MI UBICACION
+                           marker = new google.maps.Marker({
+                            position: myLatlng,
+                            map: map,
+                            title: 'Mi Ubicación',
+                            icon: 'img/icono-user.png'
+                          });
+
+                          markerG = {lat: latD, lng: lonD};
+                          markerG = new google.maps.Marker({
+                            position: new google.maps.LatLng(latD,lonD),
+                            map: map,
+                            title: 'CC Libertad',
+                            icon: 'img/asa.png'
+                          }); 
+                          request = {
+                           destination: {lat: latD, lng: lonD},
+                            origin: {lat: lat, lng: long},
+                            travelMode: 'DRIVING'
+                          };
+                          directionsService = new google.maps.DirectionsService();
+                          directionsService.route(request, function(response, status) {
+                            if (status == 'OK') {
+                              // Display the route on the map.
+                              directionsDisplay.setDirections(response);
+                            }
+                          }); 
+            }
+          });
+    
+
+    $scope.sd = function() {
+      //alert(23)
+      window.location="#/tabGrup/gruposL";
+    }
+
+})
+
+.controller("AcercaCtrl", function($scope) {
+})
+.controller("DepartamentosCtrl", function($scope,$http,$ionicModal) {
+    var link3 = 'http://cclapp.com/SERVER_APP/_controlesApp/dptos.php';
+    $http.post(link3, {}).then(function (result){
+      console.log(result);
+      $scope.dptos= [];
+      for(var i = 0; i < result.data.length;i++){
+        $scope.dptos.push({ "id"  : result.data[i].id,"departamento": result.data[i].nombre,"icono":result.data[i].icono});
+      }
+    })
+     $ionicModal.fromTemplateUrl('templates/modal-dptoinfo.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+          }).then(function(modal) {
+            $scope.modal = modal;
+          });
+          $scope.openModal = function() {
+            $scope.modal.show();
+          };
+          $scope.closeModal = function() {
+            $scope.modal.hide();
+          };
+          // Cleanup the modal when we're done with it!
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
+          // Execute action on hide modal
+          $scope.$on('modal.hidden', function() {
+            // Execute action
+          });
+          // Execute action on remove modal
+          $scope.$on('modal.removed', function() {
+            // Execute action
+          });
+})
+.controller("DptoCtrl", function($scope,$http,$stateParams, $ionicModal,$ionicLoading,$ionicPopup,$state) {
+    var link3 = 'http://cclapp.com/SERVER_APP/_controlesApp/dptos.php';
+    console.log($stateParams.ItemId)
+    $http.post(link3, {id : $stateParams.ItemId}).then(function (result){
+      console.log(result);
+      var f=result.data[0].nombre;
+        $scope.dptos= {
+          "nombre": result.data[0].nombre,
+          "url": result.data[0].url_video,
+          "descripcion": result.data[0].descripcion,
+          "lider": result.data[0].lider,
+          "miembros": result.data[0].miembros,
+          "contactos": result.data[0].contactos
+        };
+        $scope.formu = {
+          nombres :  localStorage.getItem('nameccl'),
+          email   :  localStorage.getItem('emailccl'),
+          numero  :  localStorage.getItem('celccl'),
+          direccion : "",
+          concepto  : "",
+          dpto : f
+        };
+    })
+     //funcion para mostrar cargando cuando se envian los datos
+        $scope.show = function() {
+        $ionicLoading.show({
+          template: 'Cargando.. <ion-spinner class="spinner-energized"></ion-spinner>'
+        }).then(function(){
+           console.log("The loading indicator is now displayed");
+        });
+      };
+      //funcion para ocultar el cargando
+
+      $scope.hide = function(){
+        $ionicLoading.hide().then(function(){
+           console.log("The loading indicator is now hidden");
+        });
+      };
+
+       
+
+       
+
+      //funcion para enviar la peticion al servidor
+      $scope.authenticate = function() {
+          nombres   = $scope.formu.nombres;
+          email     = $scope.formu.email,
+          numero    = $scope.formu.numero,
+          direccion = $scope.formu.direccion,
+          concepto  = $scope.formu.concepto,
+          dpto      = $scope.formu.dpto
+     
+          var link = 'http://cclapp.com/SERVER_APP/_controlesApp//nuevos_integrantes.php';
+          console.log(nombres,email,numero,direccion,concepto,dpto)
+          $http.post(link, {nombre: nombres,email : email,numero : numero,direccion : direccion,concepto: concepto,dpto:dpto}).then(function (data){
+            $scope.hide();
+            console.log(data);
+              var alertPopup = $ionicPopup.alert({
+                      title: 'Bienvenido',
+                      template:"En las proximas horas te llamaremos para acordar una cita. “Quien quiera ser grande deberá convertirse en un siervo”. Marcos 10:43.",
+                       buttons: [
+                            {
+                              text: 'Gracias',
+                              type: 'button-positive',
+                              onTap:function(e) {
+                                  $state.go('tab.departamentos');
+                                   $scope.closeModal();
+                                }
+                            }
+                        ]   
+              });
+          });
+      
+      };
+      $ionicModal.fromTemplateUrl('templates/modal-dptos.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+          }).then(function(modal) {
+            $scope.modal = modal;
+          });
+          $scope.openModal = function() {
+            $scope.modal.show();
+          };
+          $scope.closeModal = function() {
+            $scope.modal.hide();
+          };
+          // Cleanup the modal when we're done with it!
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
+          // Execute action on hide modal
+          $scope.$on('modal.hidden', function() {
+            // Execute action
+          });
+          // Execute action on remove modal
+          $scope.$on('modal.removed', function() {
+            // Execute action
+          });
+})
+.controller("CumpleanosCtrl", function($scope,$http) {
+  var link3 = 'http://cclapp.com/SERVER_APP/_controlesApp/cumpleanos.php';
+    $http.post(link3, {}).then(function (result){
+      console.log(result);
+      $scope.cumples= [];
+      if( result.data[0].nombre != "false"){
+        for(var i = 0; i < result.data.length;i++){
+           $scope.cumples.push({ "nombre"  : result.data[i].nombre});
+        }
+      }else{
+        $('#list').html("<br><center><h5>En este dia ningun amigo esta de cumpleaños.</h5></center>");
+      }
+    })
 })
 
 .controller("ExampleController", function($scope) {
- 
-    $scope.submit = function(username) {
- 
-        alert("Thanks " + username);
- 
-    }
 })
+
+var lat,long;
 
 function ContentController($scope, $ionicSideMenuDelegate) {
   $scope.toggleLeft = function() {

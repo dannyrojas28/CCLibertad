@@ -1,0 +1,23 @@
+<ion-view view-title="Albumes">
+	<div class="bar bar-stable">
+		<a class="button button-icon icon ion-chevron-left left" href="#/tab/departamentos" style="color:#5D5C5E;display:inline-block"></a>
+		<h1 class="title">{{dptos.nombre}}</h1>
+	 </div>
+  <ion-content class="has-header">
+	 	<img src="http://cclapp.com/dpto/{{dptos.url}}" style="width:100%">
+	 	<div class="card">
+		  <div class="item item-text-wrap">
+		    {{dptos.descripcion}}<br><hr>
+		    	<a href="#" class="subdued">{{dptos.miembros}}</a><br>
+      			<a href="#" class="subdued">Lider: <span> {{dptos.lider}}</span></a><br>
+      			<a href="#" class="subdued">Contacto: <span> {{dptos.contactos}}</span></a>
+      			  <center>
+                      
+                      <br>
+                       <button class="button button-block button-positive" style="font-size:22px;background:#4A7648" ng-click="openModal($event)">Deseo ser Parte</button>
+                    </center>
+		   </div>
+		</div>
+  </ion-content>
+</ion-view>
+  

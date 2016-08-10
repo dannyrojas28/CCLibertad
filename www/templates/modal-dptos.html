@@ -1,0 +1,34 @@
+<ion-modal-view>
+    <ion-header-bar>
+    <a class="button icon-left ion-ios-close-outline button-clear button-dark" ng-click="closeModal($event)"></a>
+      <h3 class="title">Formulario de Inscripcion</h3>
+    </ion-header-bar>
+    <ion-content>
+       <p style="text-align:center;margin-top:40px;color:#A7ABA7">Escribenos tus datos, <br> nos comunicaremos con usted para<br> hacerle llegar mas informacion.</p>
+       <form name="myForm" novalidate>
+           	<div class="list list-inset">
+              <label class="item item-input">
+                <input type="text" ng-model="formu.nombres" required>
+              </label>
+              <label class="item item-input">
+                <input type="email" ng-model="formu.email" required>
+              </label>
+              <label class="item item-input">
+                <input type="tel" ng-model="formu.numero" required>
+              </label>
+              <label class="item item-input">
+                <input type="text" placeholder="Direccion" ng-model="formu.direccion" required>
+              </label>
+              <label class="item item-input">
+                <textarea placeholder="Porque quieres Pertenecer a nuestro Departamento de {{dptos.nombre}}" ng-model="formu.concepto" required></textarea>
+              </label>
+                <input type="hidden" ng-model="formu.dpto" >
+            </div>
+            <center>
+                <button class="button  button-full button-balanced" style="background:#4A7648;color:#fff;width:60%"  ng-disabled="myForm.$invalid" ng-click="authenticate();show();" >
+                   Enviar
+                </button>
+            </center>
+        </form>
+    </ion-content>
+  </ion-modal-view>

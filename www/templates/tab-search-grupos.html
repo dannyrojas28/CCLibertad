@@ -1,5 +1,17 @@
 <ion-view view-title="ListaGrupos">
   <ion-content data-tap-disabled="true" class="has-header">
-  <h5>search</h5>
+	  <div class="list list-inset">
+		  <label class="item item-input">
+		    <i class="icon ion-search placeholder-icon"></i>
+		    <input type="text" placeholder="Search">
+		  </label>
+		</div>
+					<div id="list">
+					<p style="text-align:center;margin-top:40px;color:#A7ABA7">Busca un grupo de conexion <br> por el nombre de el lider o <br>la direccion de su casa.</p>
+					<ion-item class="item-accordion item-avatar" ng-repeat="item in group.items" ng-show="isGroupShown(group)" style="margin-left:10px; " href="#/grupo/{{item.id}}">
+	            		<img src="http://cclapp.com/imagenes_lideres/{{item.imagen}}" style="width:35px;height:35px">
+	            		{{item.entrenador}}<p style="font-size:12px;color:#A7ABA7">{{item.direccion}}</p>
+	          </ion-item>
+			</div>
   </ion-content>
 </ion-view>
