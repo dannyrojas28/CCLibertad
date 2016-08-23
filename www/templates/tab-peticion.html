@@ -2,8 +2,36 @@
 	  <div class="bar bar-header bar-stable">
       <h4> </h4>
       <button class="button button-icon"></button>
-      <div class="h4 title">Peticion de Oraciòn</div>
+      <div class="h4 title">Peticion de Oración</div>
   </div>
-  <ion-content class="has-header ">
+  <ion-content class="has-header has-footer">
+  		<img src="img/peticion.jpg" style="width:100%">
+  		<p style="text-align:justify;margin:20px;color:#A7ABA7">Esta usted pasando por una necesidad, problema o alguna tribulación que le ha superado, escribanos a través del siguiente formulario y cuéntanos tu necesidad, estaremos orando por usted. <br></p>
+  		<form name="myForm" novalidate>		
+  			<div class="list list-inset">
+              <label class="item item-input item-select">
+			    <div class="input-label">
+			      Tipo de Peticion 
+			    </div>
+			    <select ng-model="formu.tipo" required>
+			      <option value="Familiar" selected>Familiar</option>
+			      <option value="Personal">Personal</option>
+			      <option value="Espiritual">Espiritual</option>
+			      <option value="Material">Material</option>
+			      <option value="Otras">Otras</option>
+			    </select>
+			  </label>
+              <label class="item item-input">
+                <textarea placeholder="Escribenos la descripcion de tu petición " required style="height:157px" ng-model="formu.peticion"></textarea>
+              </label>
+            </div>
+            <center>
+                <button class="button  button-full button-balanced" style="background:#4A7648;color:#fff;width:60%"  ng-disabled="myForm.$invalid" ng-click="authenticate();show();" >
+                   Enviar
+                </button>
+            </center>
+            <br>
+            <br>
+        </form>
   </ion-content>
  </ion-view>

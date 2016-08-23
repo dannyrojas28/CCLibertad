@@ -2,23 +2,23 @@
        <ion-content scroll="false">
           <ion-slides  options="options" slider="data.slider" >
             <ion-slide-page >
-               <img src="img/articulos2.png" style="width:100%;" class="animated zoomInRight">
+               <img src="img/Recurso 1.png" style="width:100%;"  class="animated fadeIn">
             </ion-slide-page>
             <ion-slide-page >
-               <img src="img/peticiones2.png" style="width:100%;">
+               <img src="img/Recurso 2.png" style="width:100%;">
             </ion-slide-page>
             <ion-slide-page >
-                <img src="img/actividades2.png" style="width:100%;">
+                <img src="img/Recurso 4.png" style="width:100%;">
             </ion-slide-page>
             <ion-slide-page >      
-                <img src="img/grupos2.png" style="width:100%;">           
+                <img src="img/Recurso 5.png" style="width:100%;">           
             </ion-slide-page>
              <ion-slide-page style="background:#fff;">        
                 <ion-content class="padding">         
                  <center><img src="img/logo2.png" style="width:189px"></center>
                   <form name="myForm" novalidate>
                     <div class="list list-inset">
-                    <label class="item item-input">
+                    <label class="item item-input ">
                        <i class="icon ion-person" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
                       <input type="text" placeholder="Nombres Completos"   ng-model="login.nombres"  ng-minlength="3" required >
                     </label>
@@ -30,9 +30,10 @@
                        <i class="icon ion-android-phone-portrait" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
                       <input type="tel" placeholder="Numero de Celular" ng-model="login.numero" ng-minlength="10" required>
                     </label>
-                    <label class="item item-input">
-                       <i class="icon ion-ios-calendar-outline" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>
-                      <input class="filter-date" type="date"    ng-model="login.fecha"  > 
+                    <label class="item item-input item-stacked-label">
+                    	<span class="input-label">Fecha de Nacimiento</span>
+                       <!--<i class="icon ion-ios-calendar-outline" style="font-size:22px;margin-right:10px;color:#4A7648;"></i>-->
+                      <input class="filter-date" type="date"    ng-model="login.fecha"  id="fecha" required placeholder="Fecha de Nacimiento"> 
                       <input class="filter-date" type="hidden"  ng-model="login.state"  required> 
                     </label>
 
@@ -40,7 +41,7 @@
                     <center>
                       
                       <br>
-                       <button class="button button-block button-positive" ng-disabled="myForm.$invalid" ng-click="authenticate();show();" style="font-size:22px;background:#4A7648">Registrarme</button>
+                       <button class="button button-block button-positive" ng-disabled="myForm.$invalid" ng-click="authenticate();show();" style="font-size:22px;background:#4A7648">Registrarme</button><br><br>
                     </center>
                 </form>
               </ion-content>

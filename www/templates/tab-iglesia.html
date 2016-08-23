@@ -4,7 +4,23 @@
       <button class="button button-icon"></button>
       <div class="h4 title">CC Libertad</div>
   </div>
-  <ion-content on-ngload="centerOnMe()" class="has-header">
+  <ion-content on-ngload="centerOnMe()" class="has-header has-footer">
+        <div class="card">
+          <div class="item item-divider" >
+            ¿Sabes como llegar?
+          </div>
+        </div>
+
+        <div id="map4" data-tap-disabled="true" style="   width: 100%;
+      height: 50%;
+      bottom:0px;"> </div> 
+        <div class="card">
+           <div class="item item-text-wrap">
+            Nos diferenciamos por ser una iglesia en constante movimiento e influencia en el sector del barrio La Libertad, nuestra capacidad es de 300 personas
+             <br><br><center> <a class="button icon-left ion-calendar button-positive" style="background:#4A7648;padding:5px;" href="#/tab/actividades">Proximas Actividades</a></center>
+
+          </div>
+        </div>
   			<ion-slides  options="options" slider="data.slider" style="width:100%;background:#f1f1f1;height:290px">
 		            <ion-slide-page ng-repeat="gale in gal" >
 			               
@@ -12,54 +28,30 @@
 		            </ion-slide-page>
 		          </ion-slides>
         
-        <div class="card">
-           <div class="item item-text-wrap">
-            Nos diferenciamos por una iglesia en constante movimiento e influencia en el sector del barrio La Libertad, nuestra capacidad es de 300 personas
-          </div>
-          <div class="item item-divider">
-            ¿Sabes como llegar?
-          </div>
-        </div>
-        <div id="map4" data-tap-disabled="true"></div> 
+        
         <div class="card">
           <div class="item item-divider">
-            Redes Sociales
+           Informacion de Contacto
           </div>
           <div class="item item-text-wrap">
+            <center>
+              <a class="button icon-left ion-social-twitter button-positive" style="background:#55acee;padding:5px">Twitter</a>
+              <a class="button icon-left ion-social-facebook button-positive" style="background:#3b5998;padding:5px;" href="https://www.facebook.com/CCLibertad/">Facebook</a>
+            </center>
             <div class="row" style="text-align:center">
-              <div class="col">
-                <h1 class="icon ion-social-facebook" style="color: #3b5998"></h1>
-                <a href="https://www.facebook.com/CCLibertad">Ver Facebook</a>
-              </div>
-              <div class="col">
-                 <h1 class="icon ion-social-twitter" style="color: #81BEF7"></h1>
-                <a href="https://twitter.com/CC_Libertad">Ver Twitter</a>
-              </div>
+               <iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FCCLibertad%2F&width=450&layout=standard&action=like&size=large&show_faces=true&share=false&height=80&appId=1248580411832486" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+
             </div>
             <hr>
-            <p>Llamanos para darte mas informacion 5951593</p>
+            <p style="font-size:13px;text-align:center">PASTORES
+                JORGE RODRIGUEZ Y JULY MOLINA <br>
+                DIRECCIÓN: CALLE 16 No. 11-76 ESQUINA LA LIBERTAD <br>
+                TELEFONO: 5951593<br>
+                CENTROCRISTIANOLIBERTAD@HOTMAIL.COM <br>
+              </p>
             
           </div>
         </div>
   </ion-content>
 
  </ion-view>
-
- <style type="text/css">
- 		#map4 {
-	  	width: 100%;
-	  	height: 50%;
-      bottom:0px;
-	}
-
-	
-	#save-widget {
-        width: 300px;
-        box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
-        background-color: white;
-        padding: 10px;
-        font-family: Roboto, Arial;
-        font-size: 13px;
-        margin: 15px;
-	}
- </style>

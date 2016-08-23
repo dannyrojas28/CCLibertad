@@ -1,0 +1,37 @@
+<ion-view view-title="Multimedia">
+<div class="bar bar-header" style="background:transparent;" >
+                     <ion-tabs class="tab tabs-icon-top">
+                        <ion-tab title="Home" icon-on="ion-calendar" icon-off="ion-calendar" href="#/tab/actividades">
+                          <!-- Tab 1 content -->
+                        </ion-tab>
+
+                        <ion-tab title="About" icon-on="ion-clock" icon-off="ion-clock" href="#/tab/todasactividades">
+                          <!-- Tab 2 content -->
+                        </ion-tab>
+                      </ion-tabs>
+                    </div>
+  <ion-content class="has-header has-footer">
+    <div class="list card" >
+      <ion-item  item="item"  class="">
+             Proximas Actividades
+          </ion-item>
+      <div ng-repeat="actividad in actividades">
+        <div class="item item-avatar">
+          <img src="img/calendar.png">
+          <h2>{{actividad.fecha}}</h2>
+        </div>
+
+        <div class="item item-body">
+          <div ng-repeat="item in actividad.items">
+            <p href="#" class="item item-icon-left" style="margin-top:0px;padding:1px;padding-left: 44px;">
+              <i class="icon ion-clock" style="font-size:19px;"></i>
+               {{item.descrip}} 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  </ion-view>
+
+</script>

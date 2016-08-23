@@ -1,21 +1,17 @@
 angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 .controller('NavCtrl', function($scope, $ionicSideMenuDelegate) {
-  $scope.showMenu = function () {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
-  $scope.showRightMenu = function () {
-    $ionicSideMenuDelegate.toggleRight();
-  };
+ 
 })
 
 
 
 .controller('IntroCtrl', function($ionicPlatform,$scope, $state, $ionicSlideBoxDelegate,  $stateParams,$ionicPopup, $http, $sce, $ionicModal,$ionicLoading,$filter,$cordovaDevice) {
   // Called to navigate to the main app
-  //localStorage.removeItem('nameccl');
-
+// localStorage.removeItem('nameccl');
+      $('#Intro').css('display','block');
+ 
+var uuid = 2324;
       console.log("intro")
-      uuid = 'f7e6b12f183bf56';
          console.log(uuid);
         if(localStorage.getItem('nameccl') == null){
            //Quitamos la propiedad display none del id del div principal
@@ -26,16 +22,17 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
               var pr=data.data;
               console.log(pr.mensaje);
               if(pr.mensaje == "true"){
-                localStorage.setItem('nameccl',pr.name);
-                localStorage.setItem('emailccl',pr.email);
-                localStorage.setItem('celccl',pr.celular);
-                localStorage.setItem('fechaccl',pr.fecha);
+                //localStorage.setItem('nameccl',pr.name);
+                //localStorage.setItem('emailccl',pr.email);
+                //localStorage.setItem('celccl',pr.celular);
+                //localStorage.setItem('fechaccl',pr.fecha);
                   //$state.go('list');
                   $scope.login = {
-                    nombres :  localStorage.getItem('nameccl'),
-                    email   :  localStorage.getItem('emailccl'),
-                    numero  :  localStorage.getItem('celccl'),
+                    nombres :  pr.name,
+                    email   :  pr.email,
+                    numero  :  pr.celular,
                     fecha   :  "",
+                    fechaD  :  "",
                     state   :  0
                  };
                   $scope.date = localStorage.getItem('fechaccl');
@@ -46,6 +43,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
                       email   : "",
                       numero  : "",
                       fecha   : "",
+                      fechaD  : "",
                       state   : 0
                    };
                    $scope.date = "";
@@ -99,8 +97,8 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
           nombres  = $scope.login.nombres;
           email    = $scope.login.email;
           numero   = $scope.login.numero;
-          fecha    = "1996-07-28"; 
           state    = $scope.login.state;
+          var fecha = $('#fecha').val();
           console.log( nombres+" - "+email+" - "+numero+" - "+fecha+" - "+state)
           var link = 'http://cclapp.com/SERVER_APP/_controlesApp/reg-usuarios.php';
      
@@ -109,6 +107,10 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
               var pr=data.data;
               $scope.hide();
               if(pr.state == 1){
+              	localStorage.setItem('nameccl',nombres);
+                localStorage.setItem('emailccl',email);
+                localStorage.setItem('celccl', numero);
+                localStorage.setItem('fechaccl',fecha);
                      var alertPopup = $ionicPopup.alert({
                       title: 'Bienvenido',
                       template: pr.mensaje,
@@ -183,16 +185,17 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
           /*
             //se cierran los modales
           */
+           
     })
 
 
 
 
 .controller('InicioCtrl', function($scope, $http,$state,$ionicLoading, $compile,$sce) {
-  $scope.loading = $ionicLoading.show({
-          content: 'Geoloca...',
-          showBackdrop: false
-        });
+  if(localStorage.getItem('nameccl') == null){
+    $state.go('intro');
+  }
+ 
       //creamos las variables de saludo
       var texto  = "";
       var imagen = "";
@@ -254,9 +257,79 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       imagen  : imagen,
       devocional : result.data[0].imagen
     }
-  });      
- 
+  });
+    //peticiones      
+    $scope.peticion = [
+        { 
+              tipo: "Espiritual",
+              imagen: "p_espiritual.jpg" 
+        },
+        { 
+              tipo: "Familiar",
+              imagen: "p_familiar.jpg" 
+        },
+        { 
+              tipo: "Material",
+              imagen: "p_material.jpg" 
+        }
+    ];
+    var a = Math.round(Math.random()*2);
+    $scope.peticions = {
+      tipo   :  $scope.peticion[a].tipo,
+      imagen :  $scope.peticion[a].imagen
+    }
 
+     //consejos     
+    $scope.consejo = [
+        { 
+              tipo: "Economico",
+              imagen: "c_economico.jpg" 
+        },
+        { 
+              tipo: "de Jovenes",
+              imagen: "c_jovenes.jpg" 
+        },
+        { 
+              tipo: "de Parejas",
+              imagen: "c_parejas.jpeg" 
+        },
+        { 
+              tipo: "Personal",
+              imagen: "c_personal.jpg" 
+        }
+    ];
+    var a = Math.round(Math.random()*3);
+    $scope.consejos = {
+      tipo   :  $scope.consejo[a].tipo,
+      imagen :  $scope.consejo[a].imagen
+    }
+  var link5 = 'http://cclapp.com/SERVER_APP/_controlesApp/actividades_hoy.php';
+      $http.post(link5, {}).then(function (result){
+          $scope.actividades= [];
+           console.log(result.data[0].nombre);
+            if( result.data[0].nombre != false){
+              for(var i = 0; i < result.data.length;i++){
+                 $scope.actividades.push({ "descrip"  : result.data[i].nombre+" - "+result.data[i].hora});
+              }
+            }else{
+              $('#list-acti').css("display","none");
+            }
+  });
+  var link6 = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_hoy.php';
+  $http.post(link6).then(function (result){
+    console.log("resullllll"+result)
+    if (result.data[0].titulo != false) {
+      $('#articulo').css('display','block');
+      console.log("EL ID DEL ARTICULO"+ result.data[0].id);
+       $scope.articulo = {
+        titulo       : result.data[0].titulo+" - Parte "+result.data[0].dia,
+        id        : result.data[0].id,
+        imagen      : result.data[0].imagen
+      }
+    }else{
+      $('#articulo').css('display','none');
+    }
+  });
   //se ejecuta la peticion al servidor para obtener la ultima foto de los albumes y mostrarla
   var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/album.php';
   $http.post(link2, {}).then(function (result){
@@ -280,7 +353,6 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       nombre      : result.data[0].nombre_predica
     }
 
-    $scope.loading = $ionicLoading.hide({});
   });   
    var link5 = 'http://cclapp.com/SERVER_APP/_controlesApp/cumpleanos.php';
     $http.post(link5, {}).then(function (result){
@@ -299,13 +371,20 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 
 .controller('TabCtrl', function($scope,$ionicSideMenuDelegate) {
   $scope.toggleMenu = function() {
+
+            $ionicSideMenuDelegate.toggleRight(false);
         if($ionicSideMenuDelegate.isOpenRight()) {
             $ionicSideMenuDelegate.toggleRight(false);
         } else {
             $ionicSideMenuDelegate.toggleRight(true);
         }
     }
-  
+   $scope.showMenu = function () {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+  $scope.showRightMenu = function () {
+    $ionicSideMenuDelegate.toggleRight();
+  };
 })
 .controller('TabGrupoCtrl', function($scope, $ionicModal) {
  $ionicModal.fromTemplateUrl('templates/modal-grupos.html', {
@@ -354,7 +433,8 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
             var long = position.coords.longitude
           }, function(err) {
             // error
-            alert("No podemos acceder a tu Ubicación");
+          // alert("No podemos acceder a tu Ubicación");
+            $scope.loading = $ionicLoading.hide({});
           });
 
 
@@ -368,7 +448,8 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       null,
       function(err) {
         // error
-            alert("No podemos acceder a tu Ubicación");
+          //    alert("No podemos acceder a tu Ubicación");
+            $scope.loading = $ionicLoading.hide({});
       },
       function(position) {
         lat  = position.coords.latitude;
@@ -716,12 +797,15 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
       }
     }) 
 })
-.controller('VimeoCtrl', function($scope, $stateParams) {
+.controller('VimeoCtrl', function($scope, $stateParams,$sce) {
   console.log($stateParams.Vimeo);
   var vimeo = $stateParams.Vimeo.split(",");
-console.log(vimeo)
+  console.log(vimeo)
   $scope.nombre = vimeo[0];
-  $scope.vimeo  = vimeo[1];
+  $scope.vimeo  = "https://player.vimeo.com/video/"+vimeo[1]+"?color=c9ff23&title=0&byline=0&portrait=0";
+   $scope.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+  }
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
@@ -767,6 +851,19 @@ console.log(vimeo)
 
 
 .controller('ArticulosCtrl', function($scope,$http,$state) {
+  var link6 = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_hoy.php';
+  $http.post(link6).then(function (result){
+    if (result.data[0].titulo != false) {
+      $('#articulo').css('display','block');
+       $scope.articulo = {
+        titulo       : result.data[0].titulo+" - Parte "+result.data[0].dia,
+        id        : result.data[0].id,
+        imagen      : result.data[0].imagen
+      }
+    }else{
+      $('#articulo').css('display','none');
+    }
+  });
   var link = 'http://cclapp.com/SERVER_APP/_controlesApp/tipos_articulos.php';
   $http.post(link).then(function (result){
     console.log(result.data.length)
@@ -775,9 +872,47 @@ console.log(vimeo)
       $scope.items.push({"id": result.data[i].id,"nombre":result.data[i].nombre,"icono":result.data[i].icono,"badge":result.data[i].badge});
     }
   });   
+})
+.controller('ArticuloTiposCtrl', function($scope,$http,$state,$stateParams) {
+    var id=$stateParams.Id;
+    var link = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_id.php';
+    $scope.articulos = [];
+     $http.post(link, {id:id}).then(function (result){
+      $scope.ar = {articulo :result.data[0].articulo};
+      console.log(result.data[0].titulo != false)
+        if(result.data[0].titulo != false){
+            for(var i = 0; i < result.data.length;i++){
+             $scope.articulos.push({"id": result.data[i].id,"titulo":result.data[i].titulo,"imagen":result.data[i].imagen,'fecha':result.data[i].fecha});
+            }
+        }else{
+           $('#cont').html('<center><ion-item  item="item"  style="margin-top:30px">No hay Articulos para esta seccion</ion-item></center>');
+        }
+       
+    })
+})
+.controller('ArticuloInfoCtrl', function($scope,$http,$state,$stateParams) {
+    var id=$stateParams.Id;
+    var link = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_info.php';
+    $scope.btnTexts = [];
+     $http.post(link, {id:id}).then(function (result){
+      console.log(result.data)
+      $scope.articulo = {
+          nombre :result.data[0].titulo,
+          id     :result.data[0].id,
+          imagen :result.data[0].imagen,
+          fecha  :result.data[0].fecha,
+          num_dias: result.data.length
+      };
+       for(var i = 0; i < result.data.length;i++){
+             $scope.btnTexts.push({"texto": result.data[i].texto,'fecha':result.data[i].fecha_publicacion,'dia':result.data[i].dia});
+      }
+       
+    })
 
-
-
+    $scope.Texto = function(num){
+        $('.divTexto').css('display','none');
+        $('#div'+num).css('display','block');
+    }
 })
 .controller('PredicasCtrl', function($scope, $http,$state,$ionicLoading) {
     $scope.loading = $ionicLoading.show({
@@ -811,7 +946,7 @@ console.log(vimeo)
         "url"     :result.data[0].mp3
     }];
      $scope.gal = [];
-
+    PredicaFo = result.data[0].foto_album;
     if(result.data[0].foto_album != ""){
         for(var i = 0; i < result.data.length;i++){
             console.log(result.data[i].foto_album)
@@ -821,7 +956,19 @@ console.log(vimeo)
           $scope.gal.push({"foto":result.data[0].imagen});
     } 
     
-
+    $scope.Burbuja = function(){
+        if(localStorage.getItem('PredicaId') == null){
+          $('#btn-predicas').css('display','block');
+        }else{
+           $('#btn-predicas').css('display','none');
+        }
+        localStorage.setItem('PredicaId',id);
+        localStorage.setItem('PredicaFo',PredicaFo);
+        $('#btn-predicas').css('background','url('+PredicaFo+')');
+        $('#btn-predicas').css('background-size','100% 80%');
+        $('#btn-predicas').css('background-position','100%');
+        $("#btn-predicas").prop("href", "#/predica/"+id);
+    }
     $scope.dynamicTrack = {};
      $scope.stopPlayback = function() {
         MediaManager.stop();
@@ -849,7 +996,7 @@ console.log(vimeo)
 })
 
 .controller("IglesiaCtrl", function($scope, $cordovaGeolocation,$ionicSlideBoxDelegate){
-       
+    
     $scope.gal = [{"foto": "https://c6.staticflickr.com/8/7712/26491811853_4ba991c689_c.jpg"},
       {"foto": "https://c8.staticflickr.com/2/1444/26121671255_f4d0d14e3f_c.jpg"},
       {"foto": "https://c8.staticflickr.com/2/1543/24836593799_8dd362171f_c.jpg"},
@@ -1062,7 +1209,7 @@ console.log(vimeo)
           concepto  = $scope.formu.concepto,
           dpto      = $scope.formu.dpto
      
-          var link = 'http://cclapp.com/SERVER_APP/_controlesApp//nuevos_integrantes.php';
+          var link = 'http://cclapp.com/SERVER_APP/_controlesApp/nuevos_integrantes.php';
           console.log(nombres,email,numero,direccion,concepto,dpto)
           $http.post(link, {nombre: nombres,email : email,numero : numero,direccion : direccion,concepto: concepto,dpto:dpto}).then(function (data){
             $scope.hide();
@@ -1123,12 +1270,152 @@ console.log(vimeo)
       }
     })
 })
-.controller("PeticionCtrl", function($scope,$http) {
 
-})
-.controller("ConsejoCtrl", function($scope,$http) {
+.controller('ActividadesCtrl', function($scope,$http){
 
+     var link = 'http://cclapp.com/SERVER_APP/_controlesApp/actividades_hoy.php';
+      $http.post(link, {}).then(function (result){
+          $scope.actividades= [];
+           console.log(result.data[0].nombre);
+            if( result.data[0].nombre != false){
+              for(var i = 0; i < result.data.length;i++){
+                 $scope.actividades.push({ "nombre"  : result.data[i].nombre,"hora":result.data[i].hora,"imagen":result.data[i].imagen});
+              }
+            }else{
+              $('#actividades').html("<br><center><h5>En este día no tenemos ninguna Actividad</h5></center>");
+            }
+         
+      });
 })
+.controller('TodasActividadesCtrl', function($scope,$http){
+        var link = 'http://cclapp.com/SERVER_APP/_controlesApp/actividades_mes.php';
+      $http.post(link, {}).then(function (result){
+        console.log(result)
+          $scope.actividades= [];
+           console.log(result.data[1][0][0].nombre);
+            if( result.data[0].nombre != false){
+              for(var i = 0; i < result.data.length;i++){
+                console.log(result.data[i][0].length)
+                  $scope.actividades[i] = {
+                    fecha : result.data[i][0][0].fecha,
+                    items: []
+                  };
+                  for(var k = 0;k < result.data[i][0].length;k++){
+                      $scope.actividades[i].items.push({ "descrip"  : result.data[i][0][k].nombre+" "+result.data[i][0][k].hora});
+                  }
+              }
+            }else{
+              $('#actividades').html("<br><center><h5>En este día no tenemos ninguna Actividad</h5></center>");
+            }
+      });
+})
+.controller("PeticionCtrl", function($scope,$http,$ionicPopup,$state, $ionicLoading) {
+  $scope.formu = {
+    tipo : "",
+    peticion : ""
+  }
+   //funcion para enviar la peticion al servidor
+      $scope.authenticate = function() {
+          tipo         = $scope.formu.tipo;
+          peticion     = $scope.formu.peticion
+     
+          var link = 'http://cclapp.com/SERVER_APP/_controlesApp/peticion.php';
+          $http.post(link, {tipo: tipo, peticion : peticion}).then(function (data){
+            $scope.hide();
+            console.log(data);
+              var alertPopup = $ionicPopup.alert({
+                      title: 'Bendiciones '+localStorage.getItem('nameccl'),
+                      template:"Hemos recibido tu petición, ten Fé y espera la respuesta de Dios. “Nadie te podrá hacer frente en todos los días de tu vida; como estuve con Moisés, estaré contigo; no te dejaré, ni te desampararé.” Josué 1:5.",
+                       buttons: [
+                            {
+                              text: 'Lo Creo',
+                              type: 'button-positive',
+                              onTap:function(e) {
+                                  $scope.formu = {
+                                      tipo : "",
+                                      peticion : ""
+                                    }
+                                    $state.go('tab.peticion');
+                                }
+                            }
+                        ]   
+              });
+          });
+      
+      };
+      $scope.show = function() {
+        $ionicLoading.show({
+          template: 'Cargando.. <ion-spinner class="spinner-energized"></ion-spinner>'
+        }).then(function(){
+           console.log("The loading indicator is now displayed");
+        });
+      };
+      //funcion para ocultar el cargando
+
+      $scope.hide = function(){
+        $ionicLoading.hide().then(function(){
+           console.log("The loading indicator is now hidden");
+        });
+      };
+})
+.controller("ConsejoCtrl", function($scope,$http,$ionicPopup,$state, $ionicLoading) {
+       $scope.formu = {
+          nombres :  localStorage.getItem('nameccl'),
+          email   :  localStorage.getItem('emailccl'),
+          numero  :  localStorage.getItem('celccl'),
+          tipo : ""
+        };
+   //funcion para enviar la peticion al servidor
+      $scope.authenticate = function() {
+          nombres      = $scope.formu.nombres;
+          email        = $scope.formu.email;
+          numero       = $scope.formu.numero;
+          tipo         = $scope.formu.tipo;
+     
+          var link = 'http://cclapp.com/SERVER_APP/_controlesApp/consejo.php';
+          console.log(tipo,nombres,email,numero)
+          $http.post(link, {tipo: tipo, nombres:nombres,email:email,numero:numero}).then(function (data){
+            $scope.hide();
+            console.log(data);
+              var alertPopup = $ionicPopup.alert({
+                      title: 'Bendiciones '+localStorage.getItem('nameccl'),
+                      template:"Pronto te llamaremos para agendar una cita, Recuerda.<br> “Escucha el consejo y acepta la corrección, para que seas sabio el resto de tus días.” Proverbios 19:20",
+                       buttons: [
+                            {
+                              text: 'Gracias',
+                              type: 'button-positive',
+                              onTap:function(e) {
+                                 $scope.formu = {
+                                    nombres :  localStorage.getItem('nameccl'),
+                                    email   :  localStorage.getItem('emailccl'),
+                                    numero  :  localStorage.getItem('celccl'),
+                                    tipo : ""
+                                  };
+                                    $state.go('tab.consejo');
+                                }
+                            }
+                        ]   
+              });
+          });
+      
+      };
+      $scope.show = function() {
+        $ionicLoading.show({
+          template: 'Cargando.. <ion-spinner class="spinner-energized"></ion-spinner>'
+        }).then(function(){
+           console.log("The loading indicator is now displayed");
+        });
+      };
+      //funcion para ocultar el cargando
+
+      $scope.hide = function(){
+        $ionicLoading.hide().then(function(){
+           console.log("The loading indicator is now hidden");
+        });
+      };
+ 
+})
+
 .controller("ExampleController", function($scope) {
 })
 

@@ -141,6 +141,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
     }
    })
+  .state('articulo-detail', {
+    url: '/articulo/:Id',
+    templateUrl: 'templates/articulo_tipos.html',
+    controller: 'ArticuloTiposCtrl'
+   })
+.state('articulo-info-detail', {
+    url: '/articulo-info/:Id',
+    templateUrl: 'templates/articulo_info.html',
+    controller: 'ArticuloInfoCtrl'
+   })
+
     .state('tab.predicas', {
     url: '/predicas',
     views: {
@@ -189,6 +200,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
     }
    })
+    .state('tab.actividades', {
+    url: '/actividades',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-actividades.html',
+        controller: 'ActividadesCtrl'
+      }
+    }
+   })
+  .state('tab.todasactividades', {
+    url: '/todasactividades',
+    views: {
+      'tab-menu': {
+        templateUrl: 'templates/tab-todas-actividades.html',
+        controller: 'TodasActividadesCtrl'
+      }
+    }
+   })
   .state('tab.acerca', {
     url: '/acerca',
     views: {
@@ -216,6 +245,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
       }
     }
    })
+
   $urlRouterProvider.otherwise('/');
 
 });

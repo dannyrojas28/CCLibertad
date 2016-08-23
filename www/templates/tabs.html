@@ -50,8 +50,7 @@
 
                   <!-- Account Tab -->
                 <ion-tab icon-off="ion-navicon-round" icon-on="ion-navicon-round" ng-click="showRightMenu()">
-
-                  <ion-nav-view name="tab-menu">
+                  <ion-nav-view name="tab-menu">               
                   </ion-nav-view>
                 </ion-tab>
 
@@ -81,7 +80,9 @@
       -->
         <ion-side-menu side="right">
          
-          <ion-content>
+          <ion-content 
+  edge-drag-threshold="true"
+  drag-content="true">
               <center><img ng-src="img/logo2.png" style="width:170px"></center>
             <div class="list">
 
@@ -100,7 +101,7 @@
                 Nuestros Cumpleañeros
               </a>
 
-              <a class="item item-icon-left" href="#"  ng-click="toggleMenu()">
+              <a class="item item-icon-left" href="#/tab/actividades"  ng-click="toggleMenu()">
                 <i class="icon ion-calendar" style="font-size:28px;color: #4C4F52;"></i>
                 Actividades
               </a>
@@ -114,7 +115,7 @@
               </a>
                <a class="item item-icon-left" href="#/tab/acerca" ng-click="toggleMenu()"> 
                 <i class="icon ion-information-circled" style="font-size:28px;color: #4C4F52;"></i>
-                Acerda de Nosotros
+                Acerca de Nosotros
               </a>
               <a class="item item-icon-left" href="#" ng-click="toggleMenu()">
                 <i class="icon ion-gear-a" style="font-size:28px;color: #4C4F52;" ></i>

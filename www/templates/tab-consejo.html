@@ -1,9 +1,43 @@
-<ion-view view-title="Multimedia">
+<ion-view view-title="Consejo">
 	  <div class="bar bar-header bar-stable">
       <h4> </h4>
       <button class="button button-icon"></button>
-      <div class="h4 title">Programar un Consejo</div>
+      <div class="h4 title">Programar un consejo</div>
   </div>
-  <ion-content class="has-header ">
+  <ion-content class="has-header has-footer">
+  		<img src="img/consejo.jpg" style="width:100%">
+  		<p style="text-align:justify;margin:20px;color:#A7ABA7">
+  			Todos en algún momento de nuestra vida necesitamos algún consejo de alguien que nos comprenda y que nos de recomendaciones. Es entonces cuando pensamos en pedir consejo.<br>
+  			Contamos con Personas especializadas en diferentes temas de nuestras vidas, que seran las encargadas de aconsejarte en este momento.<br>
+  			<br>Selecciona el tipo de consejo que estas necesitando y nos comunicaremos con usted para acordar una cita.
+  		 <br></p>
+  		<form name="myForm" novalidate>		
+  			<div class="list list-inset">
+              <label class="item item-input item-select">
+			    <div class="input-label">
+			      Tipo de 	Consejo
+			    </div>
+			    <select ng-model="formu.tipo" required>
+			      <option value="Personal" selected>Personal</option>
+			      <option value="Economico">Economico</option>
+			      <option value="Familiar">Familiar</option>
+			      <option value="Infantil">Infantil</option>
+			      <option value="Jovenes">Jovenes</option>
+			      <option value="Parejas">Parejas</option>
+			      <option value="Adolescenter">Adolescentes</option>
+			    </select>
+			  </label>
+            </div>
+            <input type="hidden" ng-model="formu.nombres">
+            <input type="hidden" ng-model="formu.email">
+            <input type="hidden" ng-model="formu.numero">
+            <center>
+                <button class="button  button-full button-balanced" style="background:#4A7648;color:#fff;width:60%"  ng-disabled="myForm.$invalid" ng-click="authenticate();show();" >
+                   Enviar
+                </button>
+            </center>
+            <br>
+            <br>
+        </form>
   </ion-content>
  </ion-view>

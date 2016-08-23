@@ -1,0 +1,28 @@
+<ion-view view-title="Articulos">
+		<div class="bar bar-header">
+		  <a class="button button-icon icon ion-chevron-left" href="#/articulo/{{articulo.id}}" ></a>
+		  <h5 class="title h5">{{articulo.nombre}}</h5>
+		</div>
+	<ion-content  class="padding has-header s">
+		<img src="{{articulo.imagen}}" style="width:100%">
+		 <ion-tabs class="tabs-top" style="position: inherit;" >
+
+            <!-- Tab 1 -->
+	            <ion-tab title="{{btnText.dia}}"  ng-repeat="btnText in btnTexts" ng-click="Texto({{btnText.dia}})">
+	                
+	            </ion-tab>
+        </ion-tabs>
+        	<div </div>
+			 <div class="card">
+			  <div class="item item-text-wrap">
+			    <span id="div{{btnText.dia}}" class="divTexto" style="display:none;text-align:justify" ng-repeat="btnText in btnTexts">  {{btnText.texto}}</span>
+			  </div>
+			</div>
+	</ion-content>	
+</ion-view>
+
+<style type="text/css">
+	.tabs {
+		position: inherit;
+	}
+</style>

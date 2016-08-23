@@ -1,0 +1,31 @@
+<ion-view view-title="Multimedia">
+<div class="bar bar-header" style="background:transparent;" >
+                     <ion-tabs class="tab tabs-icon-top">
+                        <ion-tab title="Home" icon-on="ion-calendar" icon-off="ion-calendar" href="#/tab/actividades">
+                          <!-- Tab 1 content -->
+                        </ion-tab>
+
+                        <ion-tab title="About" icon-on="ion-clock" icon-off="ion-clock" href="#/tab/todasactividades">
+                          <!-- Tab 2 content -->
+                        </ion-tab>
+                      </ion-tabs>
+                    </div>
+  <ion-content class="has-header has-footer">
+      <div class="list card" id="actividades">
+        <ion-item  item="item"  class="">
+             Actividades del Dia
+          </ion-item>
+        <div ng-repeat="actividad in actividades">
+          <div class="item item-avatar">
+          <img src="img/calendar.png">
+            <h2>{{actividad.nombre}}</h2>
+            <p>{{actividad.hora}}</p>
+          </div>
+
+          <div class="item item-image">
+            <img src="http://cclapp.com/imagenes_eventos/{{actividad.imagen}}">
+          </div>
+        </div>
+      </div>
+  </ion-content>
+  </ion-view>

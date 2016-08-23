@@ -2,13 +2,34 @@
 
   <ion-content class=" has-header has-footer">
 		 <ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+			   <div class="list card" id="articulo">
+			        <a href="#/articulo-info/{{articulo.id}}" class="item item-icon-left">
+			          <i class="icon ion-bookmark" style="color:#AD7C9B"></i>
+			          <h2>Articulo del Dia</h2>
+			        </a>
 
-        <ion-item ng-repeat="item in items" item="item" href="#/item/{{item.id}}" class="item-icon-left">
-          <i class="icon {{item.icono}}" style="font-size:24px;color:#c9c9c9"></i>
-		    {{item.nombre}}
-		     <span class="badge badge-assertive">{{item.badge}}</span>
-        </ion-item>
+			        <div class="item item-image" style="width:100%;height:160px;background: url({{articulo.imagen}});background-size: 100%;background-position:40% 20% "">
+			        </div>
+			        <a class="item item-icon-left assertive" href="#/articulo-info/{{articulo.id}}" style="color:#9E9E9E">
+			          <i class="icon ion-ios-bookmarks" style="color:#A66B50"></i>
+			            {{articulo.titulo}}
+			        </a>
+
+			      </div>
+			<ion-item  item="item"  class="">
+         		 Categorias
+        	</ion-item>
+			<ion-item ng-repeat="item in items" item="item" href="#/articulo/{{item.id}}" class="item-icon-left">
+         		 <i class="icon {{item.icono}}" style="font-size:24px;color:#c9c9c9"></i>
+		    		{{item.nombre}}
+		     	<span class="badge badge-assertive">{{item.badge}}</span>
+        	</ion-item>
 
       </ion-list>
   </ion-content>
 </ion-view>
+<style type="text/css">
+	.tabs {
+		position: absolute;
+	}
+</style>

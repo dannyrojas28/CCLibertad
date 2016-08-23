@@ -1,0 +1,23 @@
+<ion-view view-title="Articulos">
+		<div class="bar bar-header">
+		  <a class="button button-icon icon ion-chevron-left" href="#/tab/articulos" ></a>
+		  <h5 class="title h5">{{ar.articulo}}</h5>
+		</div>
+	<ion-content  class="padding has-header s">
+
+
+		<div class="list" id="cont">
+		    <a class="item item-thumbnail-left" href="#/articulo-info/{{articulo.id}}" ng-repeat="articulo in articulos">
+		      <img src="{{articulo.imagen}}">
+		      <h2>{{articulo.titulo}}</h2>
+		      <p>{{articulo.fecha}}</p>
+		    </a>
+		</div>
+	</ion-content>
+</ion-view>
+
+<style type="text/css">
+	.tabs {
+		position: absolute;
+	}
+</style>

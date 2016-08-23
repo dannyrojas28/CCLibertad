@@ -4,11 +4,10 @@
 		<h1 class="title">{{dptos.nombre}}</h1>
 	 </div>
   <ion-content class="has-header">
-	 	<img src="http://cclapp.com/dpto/{{dptos.url}}" style="width:100%">
+	 	<img src="{{dptos.url}}" style="width:100%">
 	 	<div class="card">
-		  <div class="item item-text-wrap">
+		  <div class="item item-text-wrap" style="text-align:justify">
 		    {{dptos.descripcion}}<br><hr>
-		    	<a href="#" class="subdued">{{dptos.miembros}}</a><br>
       			<a href="#" class="subdued">Lider: <span> {{dptos.lider}}</span></a><br>
       			<a href="#" class="subdued">Contacto: <span> {{dptos.contactos}}</span></a>
       			  <center>

@@ -3,15 +3,18 @@
       <h4> </h4>
       
       
-      <button class="button button-icon"></button>
-      <div class="h4 title">CC LIBERTAD</div>
-      <button class="button button-icon button-positive"><i class="icon ion-android-share-alt" style="font-size:28px;float:right;margin-right:10px;color:#4C4F52;"></i></button>
+      <div class="h4 title" style="position:relative">CC LIBERTAD</div>
+      <button class="button button-icon button-positive">
+        <i class="icon ion-android-share-alt" style="font-size:28px;float:right;margin-right:10px;color:#4A7648;"></i>
+        <i class="icon ion-social-facebook"   style="font-size:28px;float:right;margin-right:10px;color:#3b5998;" ></i>
+        <i class="icon ion-social-twitter"    style="font-size:28px;float:right;margin-right:10px;color:#55acee;"></i>
+      </button>
   </div>
   <ion-content class="padding has-header has-footer">
     <div class="list card">
 
       <div class="item item-avatar">
-        <img src="img/{{data.imagen}}" class="animated pulse infinite" style="max-width:50px;max-height:50px">
+        <img src="img/{{data.imagen}}" href="#/tab/edificate" class="animated pulse infinite" style="max-width:50px;max-height:50px">
         <h4>{{data.hora}}</h4>
         <p>{{data.fecha}}</p>
       </div>
@@ -31,14 +34,34 @@
           <h2>{{videos.nombre}}</h2>
           <p>{{videos.fecha}}</p>
         </a>
-
-       <iframe ng-src="{{trustSrc(movie.src)}}" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <div class="item item-body">
+        <iframe ng-src="{{trustSrc(movie.src)}}" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
         <a class="item item-icon-left assertive" href="#/tab/videos" style="color:#9E9E9E">
           <i class="icon ion-videocamera" style="color:#049C1C"></i>
             Mas Videos
         </a>
 
     </div>
+    
+    <ion-item class="list card" id="list-acti" href="#/tab/actividades">
+
+      <div class="item item-avatar">
+        <img src="img/calendar.png">
+        <h2>Actividades del dia</h2>
+      </div>
+
+      <div class="item item-body">
+        <div ng-repeat="actividad in actividades">
+          <p href="#" class="item item-icon-left" style="margin-top:0px;padding:1px;padding-left: 44px;">
+            <i class="icon ion-clock" style="font-size:19px;"></i>
+             {{actividad.descrip}}  
+          </p>
+        </div>
+      </div>
+
+    </ion-item>
+
     <div class="list card" id="list-cumple">
 
       <div class="item item-avatar">
@@ -57,6 +80,61 @@
 
     </div>
 
+      <div class="list card" id="articulo">
+
+          
+        <a href="#/articulo-info/{{articulo.id}}" class="item item-icon-left">
+          <i class="icon ion-bookmark" style="color:#AD7C9B"></i>
+          <h2>Articulo del Dia</h2>
+        </a>
+
+        <div class="item item-image" style="width:100%;height:160px;background: url({{articulo.imagen}});background-size: 100%;background-position:40% 20% "">
+         
+        </div>
+
+        <a class="item item-icon-left assertive" href="#/articulo-info/{{articulo.id}}" style="color:#9E9E9E">
+          <i class="icon ion-ios-bookmarks" style="color:#A66B50"></i>
+            {{articulo.titulo}}
+        </a>
+
+      </div>
+  
+      <div class="list card">
+
+          
+        <a href="#/tab/peticion" class="item item-icon-left">
+          <i class="icon ion-compose" style="color:#C4C016"></i>
+          <h2>Enviar petición {{peticions.tipo}}</h2>
+        </a>
+
+        <div class="item item-image" style="width:100%;height:160px;background: url(img/{{peticions.imagen}});background-size: 100%;background-position:40% 20% "">
+          
+        </div>
+
+        <a class="item item-icon-left assertive" href="#/tab/peticion" style="color:#9E9E9E">
+          <i class="icon ion-android-create" style="color:#0B2EAD"></i>
+            cuéntanos tu necesidad, estaremos orando por usted. 
+        </a>
+
+      </div>
+      <div class="list card">
+
+          
+        <a href="#/tab/consejo" class="item item-icon-left">
+          <i class="icon ion-happy-outline" style="color:#5BAD7B"></i>
+          <h2>Programar consejo {{consejos.tipo}}</h2>
+        </a>
+
+        <div class="item item-image" style="width:100%;height:160px;background: url(img/{{consejos.imagen}});background-size: 100%;background-position:40% 20% "">
+          
+        </div>
+
+        <a class="item item-icon-left assertive" href="#/tab/consejo" style="color:#9E9E9E">
+          <i class="icon ion-android-create" style="color:#AA7513"></i>
+          Nos comunicaremos con usted para acordar una cita.
+        </a>
+
+      </div>
     <div class="list card">
 
           
@@ -96,5 +174,7 @@
         </a>
 
       </div>
+  
+<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCCLibertad%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1248580411832486" width="340" height="500" style="border:none;display:block;margin:0 auto;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
   </ion-content>
 </ion-view>
