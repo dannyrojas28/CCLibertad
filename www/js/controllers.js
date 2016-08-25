@@ -853,6 +853,7 @@ var uuid = 2324;
 .controller('ArticulosCtrl', function($scope,$http,$state) {
   var link6 = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_hoy.php';
   $http.post(link6).then(function (result){
+    console.log(result)
     if (result.data[0].titulo != false) {
       $('#articulo').css('display','block');
        $scope.articulo = {
@@ -901,12 +902,12 @@ var uuid = 2324;
           id     :result.data[0].id,
           imagen :result.data[0].imagen,
           fecha  :result.data[0].fecha,
+          articulo  :result.data[0].articulo,
           num_dias: result.data.length
       };
        for(var i = 0; i < result.data.length;i++){
              $scope.btnTexts.push({"texto": result.data[i].texto,'fecha':result.data[i].fecha_publicacion,'dia':result.data[i].dia});
       }
-       
     })
 
     $scope.Texto = function(num){

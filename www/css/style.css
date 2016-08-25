@@ -133,3 +133,12 @@ p {
     position: fixed;
     bottom: 0;
 }
+#div1{
+    display: block
+}
+#divTexto{
+    display:none;
+}
+.as .tabs {
+        position: inherit;
+    }
