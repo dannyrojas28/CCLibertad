@@ -1,17 +1,20 @@
 <ion-view view-title="Edificate" >
   <ion-content class="has-header has-footer">
     <div class="list card">
+    	<div><img class="full-image " src="{{edificate.imagen}}"> </div>
 		  <div class="item item-avatar">
-		  	<img src="img/{{edificate.imagen_dia}}">
-		    <h2>Devocional</h2>
+		  	<img src="img/{{edificate.imagen_dia}}" class="animated pulse infinite">
+		    <h2>Lectura bíblica diaria</h2>
 		    <p>{{edificate.cita}}</p>
 		  </div>
 
 		  <div class="item item-body">
-		    <img class="full-image" src="{{edificate.imagen}}">
-		    <p style="text-align:justify">
-		      {{edificate.texto}}
-		    </p>
+		    
+		    <p style="font-size:17px" ng-bind-html="edificate.texto"></p>
+
+		    	<center>	
+		    		<button class="button icon-left ion-android-share-alt button-positive" ng-click="Shared()"  style="background:#4A7648;color:#fff;padding: 5px;">Compartir Devocional</button>
+		    	</center>
 		  </div>
 
 		</div>

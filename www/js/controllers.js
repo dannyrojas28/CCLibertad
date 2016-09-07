@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
+angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio',"ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls"])
 .controller('NavCtrl', function($scope, $ionicSideMenuDelegate) {
  
 })
@@ -8,9 +8,10 @@ angular.module('starter.controllers', ['ionic', 'ngCordova','ionic-audio'])
 .controller('IntroCtrl', function($ionicPlatform,$scope, $state, $ionicSlideBoxDelegate,  $stateParams,$ionicPopup, $http, $sce, $ionicModal,$ionicLoading,$filter,$cordovaDevice) {
   // Called to navigate to the main app
 // localStorage.removeItem('nameccl');
-      $('#Intro').css('display','block');
+   //   $('#Intro').css('display','block');
  
-var uuid = 2324;
+ document.addEventListener("deviceready", function () {
+    var uuid = $cordovaDevice.getUUID();
       console.log("intro")
          console.log(uuid);
         if(localStorage.getItem('nameccl') == null){
@@ -107,7 +108,7 @@ var uuid = 2324;
               var pr=data.data;
               $scope.hide();
               if(pr.state == 1){
-              	localStorage.setItem('nameccl',nombres);
+                localStorage.setItem('nameccl',nombres);
                 localStorage.setItem('emailccl',email);
                 localStorage.setItem('celccl', numero);
                 localStorage.setItem('fechaccl',fecha);
@@ -152,7 +153,7 @@ var uuid = 2324;
                 }else{
                     
                 }*/
-            });
+            }, false);
         };
 
           /*
@@ -185,13 +186,13 @@ var uuid = 2324;
           /*
             //se cierran los modales
           */
-           
+           })
     })
 
 
 
 
-.controller('InicioCtrl', function($scope, $http,$state,$ionicLoading, $compile,$sce) {
+.controller('InicioCtrl', function($scope, $http,$state,$ionicLoading, $compile,$sce,$cordovaSocialSharing,$cordovaInAppBrowser,$ionicModal) {
   if(localStorage.getItem('nameccl') == null){
     $state.go('intro');
   }
@@ -220,6 +221,71 @@ var uuid = 2324;
     imagen="moon.png";
     }
 
+  var pushNotification;     
+  var linkNotif = 'http://cclapp.com/SERVER_APP/_controlesApp/id_notificaciones.php'; 
+
+      document.addEventListener('deviceready', function(){
+    
+          pushNotification = window.plugins.pushNotification;
+          if(device.platform == 'android' || device.platform == 'Android' ||  device.platform == 'amazon-fireos' ) {
+             pushNotification.register(successHandler, errorHandler, {"senderID":"912723339114","ecb":"onNotification"});    // required!
+          }else{
+              pushNotification.register(tokenHandler, errorHandler, {"badge":"true","sound":"true","alert":"true","ecb":"onNotificationAPN"});  // required!
+          }
+            // handle APNS notifications for iOS
+            function onNotificationAPN(e) {
+                if (e.alert) {
+                     // showing an alert also requires the org.apache.cordova.dialogs plugin
+                     navigator.notification.alert(e.alert);
+                }   
+                if (e.sound) {
+                    // playing a sound also requires the org.apache.cordova.media plugin
+                    var snd = new Media(e.sound);
+                    snd.play();
+                }
+                if (e.badge) {
+                    pushNotification.setApplicationIconBadgeNumber(successHandler, e.badge);
+                }
+            }
+            
+            // handle GCM notifications for Android
+            function onNotification(e) {
+              alert(e.event);
+                switch( e.event )
+                {
+                    case 'registered':
+                        if ( e.regid.length > 0 ) {
+                          alert( e.regid);
+                         }
+                    break;
+                    case 'message':
+                      alert(e.payload.message + ' ' + e.payload.msgcnt);
+                    break;
+                    case 'error':
+                      alert(e.msg);
+                    break;
+                }
+            }
+            
+            function tokenHandler (result) {
+              //  alert("TOKEN "+result);
+                $http.post(linkNotif, {'usuario': 'test@mil.com','platform':'IOS','id_device':result }).then(function (data){
+                    console.log(data.data);
+                })
+            }
+      
+            function successHandler (result) {
+               // alert("success Handler "+result);
+                            $http.post(linkNotif, {'usuario': localStorage.getItem('emailccl'),'platform':'ANDROID','id_device':result}).then(function (data){
+                             //  alert(data.data);
+                            })
+            }
+            
+            function errorHandler (error) {
+               alert(error);
+            }
+      }, true);
+
   //guardamos los meses en un array y obtenemos la fecha para mostrarla en el saludo
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var dias  = new Array ("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
@@ -227,20 +293,36 @@ var uuid = 2324;
 
 
   var name =localStorage.getItem('nameccl').split(" ");
-  var hora = texto+name[0]+" Dios te bendiga";
+  var hora = texto+name[0]+" en Dios seguiremos haciendo proezas";
   fecha = fecha;
    var link4 = "http://cclapp.com/SERVER_APP/_controlesApp/video.php";
+   var aurl="";
   $http.post(link4, {}).then(function (result){
     console.log(result.data[0].url);
     var print = result.data;
         $scope.videos = {
          "imagen"  : result.data[0].foto,
-         "url"     : "https://player.vimeo.com/video/"+result.data[0].url+"?color=c9ff23&title=0&byline=0&portrait=0",
          "fecha"   : result.data[0].fecha,
          "nombre"  : result.data[0].nombre
       }
-     $scope.movie = {src:"https://player.vimeo.com/video/"+result.data[0].url+"?color=c9ff23&title=0&byline=0&portrait=0", title:result.data[0].nombre};
+     aurl = "http://cclapp.com/videos/"+result.data[0].url;
+       $scope.config = {
+                preload: "none",
+                sources: [
+                    {src: $sce.trustAsResourceUrl(aurl), type: "video/mp4"}
+                ],
+                theme: {
+                    url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                },
+                plugins: {
+                    controls: {
+                        autoHide: true,
+                        autoHideTime: 5000
+                    }
+                }
+      }
   });
+      
 
   $scope.trustSrc = function(src) {
         return $sce.trustAsResourceUrl(src);
@@ -309,12 +391,33 @@ var uuid = 2324;
            console.log(result.data[0].nombre);
             if( result.data[0].nombre != false){
               for(var i = 0; i < result.data.length;i++){
-                 $scope.actividades.push({ "descrip"  : result.data[i].nombre+" - "+result.data[i].hora});
+                 $scope.actividades.push({ "descrip"  : result.data[i].nombre+" - "+result.data[i].hora,"url":"http://cclapp.com/imagenes_eventos/"+result.data[i].imagen});
               }
             }else{
               $('#list-acti').css("display","none");
             }
   });
+  $scope.showImages = function(index) {
+    $scope.activeSlide = index;
+    $scope.showModal('templates/image.html');
+  }
+ 
+  $scope.showModal = function(templateUrl) {
+    $ionicModal.fromTemplateUrl(templateUrl, {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  }
+ 
+  // Close the modal
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+    $scope.modal.remove()
+  };
+
   var link6 = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_hoy.php';
   $http.post(link6).then(function (result){
     console.log("resullllll"+result)
@@ -366,7 +469,51 @@ var uuid = 2324;
         $('#list-cumple').css("display","none");
       }
     })
-  
+    var options = {
+      location: 'yes',
+      clearcache: 'yes',
+      toolbar: 'no'
+    };
+  $scope.Shared = function(ar){
+      switch(ar){
+        case "fb":
+           $cordovaInAppBrowser.open('https://www.facebook.com/CCLibertad/', '_blank', options)
+            .then(function(event) {
+              // success
+            })
+            .catch(function(event) {
+              // error
+            });
+        break;
+        case "tw":
+            $cordovaInAppBrowser.open('https://twitter.com/CC_Libertad', '_blank', options)
+            .then(function(event) {
+              // success
+            })
+            .catch(function(event) {
+              // error
+            });
+        break;
+        case "sh":
+           var a = Math.round(Math.random()*4);
+           switch(a){
+            case 1:
+              text = "Descarga nuestra Aplicación, tienes un amigo con quién contar, para buscar orientación y una palabra de Fe";
+            break;
+            case 2:
+              text = "Descarga nuestra Aplicación, programate con nuestras actividades, disfruta de nuestra galeria y festeja con cada cumpleañero";
+            break;
+            case 3:
+              text = "Descarga nuestra Aplicación, recibirás artículos, promesas de fe, audios y testimonios que te ayudarán en tu crecimiento integral.";
+            break;
+            case 4:
+              text = "Descarga nuestra Aplicación, Localiza facilmente nuestros grupos de conexion desde tu Ubicación";
+            break;
+           }
+            $cordovaSocialSharing.share(text, "Centro Cristiano Libertad", "http://cclapp.com/view/img/shared/"+a+".jpeg", "https://play.google.com/store/apps/details?id=com.centrocristiano.libertad");
+        break;
+      }
+  }
 })
 
 .controller('TabCtrl', function($scope,$ionicSideMenuDelegate) {
@@ -605,33 +752,61 @@ var uuid = 2324;
 })
 
 
-.controller('GrupoDetailCtrl', function($scope,$stateParams,$http,$cordovaGeolocation){
-  var id = $stateParams.ItemId;
-  var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/puntos.php';
-    $http.post(link2, {id:id}).then(function (result){
-      document.getElementById("map2").innerHTML = "";
-      console.log(result);
-      var print = result.data;
-      $scope.grupo = {
-        imagen      : print[0].imagen,
-        nombre      : print[0].lider,
-        hora        : print[0].hora,
-        celular     : print[0].celular,
-        direccion   : print[0].direccion
-      }
+.controller('GrupoDetailCtrl', function($scope,$stateParams,$http,$cordovaGeolocation,$state){
 
-      var markerG;
-     
-      lat   = parseFloat(localStorage.getItem('lat'));
-      long  = parseFloat(localStorage.getItem('long'));
+   var id = $stateParams.ItemId;
+   var link2 = 'http://cclapp.com/SERVER_APP/_controlesApp/puntos.php';
+   $http.post(link2, {id:id}).then(function (result){
+        console.log(result);
+        var print = result.data;
+        $scope.grupo = {
+          imagen      : print[0].imagen,
+          nombre      : print[0].lider,
+          hora        : print[0].hora,
+          celular     : print[0].celular,
+          direccion   : print[0].direccion
+        }
 
-      latD= parseFloat(print[0].latitud);
-      lonD= parseFloat(print[0].longitud);
+        latD  = print[0].latitud;
+        lonD  = print[0].longitud;
+        lider = print[0].lider;
+       var posOptions = { 
+             enableHighAccuracy:false,
+            timeout: 50000
+        };
 
-      console.log("mi punto "+lat,long)
-      console.log("grupo    "+latD,lonD);
+        var prid =  false;
+          $cordovaGeolocation
+              .getCurrentPosition(posOptions)
+              .then(function (position) {
+                var lat  = position.coords.latitude
+                var long = position.coords.longitude
+              }, function(err) {
+                // error
+               // alert("No podemos acceder a tu Ubicación");
+              });
 
-      myLatlng = new google.maps.LatLng(lat, long);
+
+          var watchOptions = {
+              enableHighAccuracy: false,
+                timeout: 50000
+          };
+
+        var watch = $cordovaGeolocation.watchPosition(watchOptions);
+        watch.then(
+          null,
+          function(err) {
+            // error
+               // alert("No podemos acceder a tu Ubicación");
+          },
+          function(position) {
+            console.log(prid)
+            if(prid == false){
+                prid=true;
+                lat  = position.coords.latitude;
+                long = position.coords.longitude;
+
+                myLatlng = new google.maps.LatLng(lat, long);
                  mapOptions = {
                             center: myLatlng,
                             zoom: 16,
@@ -685,56 +860,12 @@ var uuid = 2324;
                               directionsDisplay.setDirections(response);
                             }
                           }); 
-       var posOptions = { 
-             enableHighAccuracy:false,
-            timeout: 50000
-        };
-
-        var prid =  false;
-          $cordovaGeolocation
-              .getCurrentPosition(posOptions)
-              .then(function (position) {
-                var lat  = position.coords.latitude
-                var long = position.coords.longitude
-              }, function(err) {
-                // error
-               // alert("No podemos acceder a tu Ubicación");
-              });
-
-
-          var watchOptions = {
-              enableHighAccuracy: false,
-                timeout: 50000
-          };
-
-        var watch = $cordovaGeolocation.watchPosition(watchOptions);
-        watch.then(
-          null,
-          function(err) {
-            // error
-               // alert("No podemos acceder a tu Ubicación");
-          },
-          function(position) {
-            console.log("3")
-            if(prid == false){
-              prid=true;
-                lat  = position.coords.latitude;
-                long = position.coords.longitude;
-                console.log(lat,long)
-                localStorage.removeItem('lat');
-                localStorage.removeItem('long');
-                localStorage.setItem('lat',lat);
-                localStorage.setItem('long',long);
-                 
-                 markerG.setMap(null); 
             }
           });
     })
 
-    $scope.sd = function() {
-      //alert(23)
-      window.location="#/tabGrup/gruposL";
-    }
+  // añadimos el evento al mapa para iniciar el proceso
+  
 })
 
 
@@ -802,17 +933,33 @@ var uuid = 2324;
   var vimeo = $stateParams.Vimeo.split(",");
   console.log(vimeo)
   $scope.nombre = vimeo[0];
-  $scope.vimeo  = "https://player.vimeo.com/video/"+vimeo[1]+"?color=c9ff23&title=0&byline=0&portrait=0";
-   $scope.trustSrc = function(src) {
+   aurl = "http://cclapp.com/videos/"+vimeo[1];
+    $scope.config = {
+                preload: "none",
+                sources: [
+                    {src: $sce.trustAsResourceUrl(aurl), type: "video/mp4"}
+                ],
+                theme: {
+                    url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                },
+                plugins: {
+                    controls: {
+                        autoHide: true,
+                        autoHideTime: 5000
+                    }
+                }
+      }
+  $scope.trustSrc = function(src) {
         return $sce.trustAsResourceUrl(src);
   }
+  
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('EdificateCtrl', function($scope,$http,$state) {
+.controller('EdificateCtrl', function($scope,$http,$state, $cordovaSocialSharing) {
 
    var link = 'http://cclapp.com/SERVER_APP/_controlesApp/devocional.php';
    var date = new Date();
@@ -839,20 +986,44 @@ var uuid = 2324;
   $http.post(link, {dia: date.getDay()}).then(function (result){
     console.log(result);
     var print = result.data;
-    console.log(result.data[0].descrip.replace(/\d+/g, "<br>"))
+    console.log("de "+result.data[0].descrip)
+    des = result.data[0].descrip;
+     var versiculo = des.split(" ");
+     console.log(versiculo)
+     var txt = "";
+     for (var i= 0;i < versiculo.length; i++) { 
+      console.log(isNaN(versiculo[i]))
+      if (versiculo[i] != ""){
+        if(isNaN(versiculo[i])){
+         
+          console.log(123)
+        }else{
+           txt = txt+" <br><br>";
+        }
+        txt = txt+" "+versiculo[i];
+      }
+    }
+    console.log(txt)
+
     $scope.edificate = {
-      texto       : result.data[0].descrip,
+      texto       : txt,
       cita        : result.data[0].cita,
       imagen      : result.data[0].imagen,
       imagen_dia      : imagen_dia,
     }
+    $scope.Shared = function(){
+     $cordovaSocialSharing.share("Lectura bíblica diaria "+ result.data[0].cita +" " +result.data[0].descrip, "Centro Cristiano Libertad",result.data[0].imagen, "https://play.google.com/store/apps/details?id=com.centrocristiano.libertad");
+     }
   });     
+
+
 })
 
 
 .controller('ArticulosCtrl', function($scope,$http,$state) {
   var link6 = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_hoy.php';
   $http.post(link6).then(function (result){
+    console.log(result)
     if (result.data[0].titulo != false) {
       $('#articulo').css('display','block');
        $scope.articulo = {
@@ -885,11 +1056,12 @@ var uuid = 2324;
              $scope.articulos.push({"id": result.data[i].id,"titulo":result.data[i].titulo,"imagen":result.data[i].imagen,'fecha':result.data[i].fecha});
             }
         }else{
-           $('#cont').html('<center><ion-item  item="item"  style="margin-top:30px">No hay Articulos para esta seccion</ion-item></center>');
+           $scope.ar = {articulo :result.data[0].articulo};
         }
        
     })
 })
+
 .controller('ArticuloInfoCtrl', function($scope,$http,$state,$stateParams) {
     var id=$stateParams.Id;
     var link = 'http://cclapp.com/SERVER_APP/_controlesApp/articulo_info.php';
@@ -901,12 +1073,12 @@ var uuid = 2324;
           id     :result.data[0].id,
           imagen :result.data[0].imagen,
           fecha  :result.data[0].fecha,
+          articulo  :result.data[0].articulo,
           num_dias: result.data.length
       };
        for(var i = 0; i < result.data.length;i++){
              $scope.btnTexts.push({"texto": result.data[i].texto,'fecha':result.data[i].fecha_publicacion,'dia':result.data[i].dia});
       }
-       
     })
 
     $scope.Texto = function(num){
@@ -1420,9 +1592,31 @@ var uuid = 2324;
 })
 
 var lat,long;
+var iniDetalGrupo = false;
 
 function ContentController($scope, $ionicSideMenuDelegate) {
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
   };
 }
+
+
+function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        // Create a map object and specify the DOM element for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: myLatLng,
+          scrollwheel: false,
+          zoom: 4
+        });
+
+        // Create a marker and set its position.
+        var marker = new google.maps.Marker({
+          map: map,
+          position: myLatLng,
+          title: 'Hello World!'
+        });
+      }
+
+

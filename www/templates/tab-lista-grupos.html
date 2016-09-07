@@ -8,7 +8,7 @@
 	            	 {{group.name}}<br><span style="font-size:13px;color:#A7ABA7">{{group.direccion}}</span>
 	                <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'" style="float:right;margin-right:10px"></i>
 	          </ion-item>
-	          <ion-item class="item-accordion item-avatar" ng-repeat="item in group.items" ng-show="isGroupShown(group)" style="margin-left:10px; " href="#/grupo/{{item.id}}">
+	          <ion-item class="item-accordion item-avatar" ng-repeat="item in group.items" ng-show="isGroupShown(group)" style="margin-left:10px; " href="#/grupo/{{item.id}}" onclick="initMap();">
 	            		<img src="http://cclapp.com/imagenes_lideres/{{item.imagen}}" style="width:35px;height:35px">
 	            		{{item.entrenador}}<p style="font-size:12px;color:#A7ABA7">{{item.direccion}}</p>
 	          </ion-item>

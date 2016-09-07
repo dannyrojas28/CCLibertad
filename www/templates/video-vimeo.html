@@ -1,24 +1,28 @@
 <ion-view view-title="Albumes">
-<div class="bar bar-header">
-  <a class="button button-icon icon ion-chevron-left" href="#/tab/videos" ></a>
-  <h5 class="title">{{nombre}}</h5>
-</div>
-  <ion-content class="has-header ds">
-		   <!--<ion-slides  options="options" slider="data.slider" >
-            <ion-slide-page ng-repeat="album in albums" >
-                <div class="container" ng-if="slideVisible($index)" class="scrollCanvas">
-	                <ion-scroll class="scrollCanvas" zooming="true" min-zoom="1" direction="xy" locked="false">
-	                    <div class="image" style="background-image: url( {{album.imagen}} )"></div>  
-	                </ion-scroll>
-
-	            </div>
-	           añadimos un espacio vacio para evitar problemas con slidebox y las diapositivas ocultas. Ver post dedicado a SlideBox para más información. 
-	            <div>&nbsp;</div>
-            </ion-slide-page>
-          </ion-slides>-->
-
-          <iframe ng-src="{{trustSrc(vimeo)}}" width="100%" style="margin-top:15px" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-  </ion-content>
+  <div class="bar bar-header">
+    <a class="button button-icon icon ion-chevron-left" href="#/tab/videos" ng-click="onClickPlayPause()"></a>
+    <h5 class="title">{{nombre}}</h5>
+  </div>
+    <ion-content class="has-header ds">
+            <videogular vg-theme="config.theme.url">
+                <vg-media vg-src="config.sources"
+                          vg-tracks="config.tracks">
+                </vg-media>
+                <vg-controls vg-autohide="config.plugins.controls.autoHide" vg-autohide-time="config.plugins.controls.autoHideTime">
+                    <vg-play-pause-button></vg-play-pause-button>
+                    <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+                    <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                    </vg-scrub-bar>
+                    <vg-volume>
+                        <vg-mute-button></vg-mute-button>
+                        <vg-volume-bar></vg-volume-bar>
+                    </vg-volume>
+                <vg-playback-button></vg-playback-button>
+                    <vg-fullscreen-button></vg-fullscreen-button>
+                </vg-controls>
+            </videogular>
+    </ion-content>
 </ion-view>
 <style type="text/css">
 .container{

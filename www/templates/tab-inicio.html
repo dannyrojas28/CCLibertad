@@ -1,26 +1,28 @@
 <ion-view view-title="Inicio">  
   <div class="bar bar-header bar-stable">
       <h4> </h4>
-      
-      
       <div class="h4 title" style="position:relative">CC LIBERTAD</div>
-      <button class="button button-icon button-positive">
-        <i class="icon ion-android-share-alt" style="font-size:28px;float:right;margin-right:10px;color:#4A7648;"></i>
-        <i class="icon ion-social-facebook"   style="font-size:28px;float:right;margin-right:10px;color:#3b5998;" ></i>
-        <i class="icon ion-social-twitter"    style="font-size:28px;float:right;margin-right:10px;color:#55acee;"></i>
-      </button>
+         <div  class="item-icon-right">
+          <div class="icon">
+               <span class="ion-social-facebook" ng-click="Shared('fb')" style="color:#3b5998;margin-top:20px"> </span>
+               &nbsp;
+               <span class="ion-social-twitter"  ng-click="Shared('tw')" style="color:#55acee;margin-top:20px"></span>
+                &nbsp;
+               <span class="ion-android-share-alt"  ng-click="Shared('sh')" style="color:#4A7648;margin-top:20px"></span>
+           </div>
+        </div>
   </div>
-  <ion-content class="padding has-header has-footer">
-    <div class="list card">
+  <ion-content class="padding has-header">
+    <div class="list card" id="ij">
 
       <div class="item item-avatar">
         <img src="img/{{data.imagen}}" href="#/tab/edificate" class="animated pulse infinite" style="max-width:50px;max-height:50px">
-        <h4>{{data.hora}}</h4>
+        <h4 style="white-space: normal;">{{data.hora}}</h4>
         <p>{{data.fecha}}</p>
       </div>
       <div class="item item-body">
-        <div style="width:100%;height:120px;background: url({{data.devocional}});background-size: 100%;background-position:40% 80% ">
-        </div>
+        <a href="#/tab/edificate"><div style="width:100%;height:120px;background: url({{data.devocional}});background-size: 100%;background-position:40% 80% ">
+        </div></a>
         <br>
         <a href="#/tab/edificate" class="subdued">Versiculo del Dia</a>
         <a href="#/tab/edificate" class="subdued" style="float:right;margin-left;color:#4A7648">Ver Mas</a>
@@ -30,37 +32,48 @@
 
           
         <a  class="item item-icon-left">
-          <i class="icon ion-film-marker" style="color:#049C1C"></i>
+          <i class="icon ion-film-marker animated rubberBand infinite" style="color:#049C1C" ></i>
           <h2>{{videos.nombre}}</h2>
           <p>{{videos.fecha}}</p>
         </a>
       <div class="item item-body">
-        <iframe ng-src="{{trustSrc(movie.src)}}" width="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <div ng-controller="InicioCtrl as controller" class="videogular-container">
+          <videogular vg-theme="config.theme.url">
+              <vg-media vg-src="config.sources"
+                        vg-tracks="config.tracks">
+              </vg-media>
+
+              <vg-controls vg-autohide="config.plugins.controls.autoHide" vg-autohide-time="config.plugins.controls.autoHideTime">
+                  <vg-play-pause-button></vg-play-pause-button>
+                  <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+                  <vg-scrub-bar>
+                      <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                  </vg-scrub-bar>
+                  <vg-volume>
+                      <vg-mute-button></vg-mute-button>
+                      <vg-volume-bar></vg-volume-bar>
+                  </vg-volume>
+      <vg-playback-button></vg-playback-button>
+                  <vg-fullscreen-button></vg-fullscreen-button>
+              </vg-controls>
+          </videogular>
+      </div>
       </div>
         <a class="item item-icon-left assertive" href="#/tab/videos" style="color:#9E9E9E">
-          <i class="icon ion-videocamera" style="color:#049C1C"></i>
+          <i class="icon ion-videocamera animated rubberBand infinite" style="color:#049C1C"></i>
             Mas Videos
         </a>
 
     </div>
-    
-    <ion-item class="list card" id="list-acti" href="#/tab/actividades">
-
-      <div class="item item-avatar">
-        <img src="img/calendar.png">
+    <div class="item item-avatar">
+        <img src="img/calendar.png" class="animated tada infinite">
         <h2>Actividades del dia</h2>
-      </div>
-
-      <div class="item item-body">
-        <div ng-repeat="actividad in actividades">
-          <p href="#" class="item item-icon-left" style="margin-top:0px;padding:1px;padding-left: 44px;">
-            <i class="icon ion-clock" style="font-size:19px;"></i>
-             {{actividad.descrip}}  
-          </p>
-        </div>
-      </div>
-
-    </ion-item>
+    </div>
+    <a class="item item-list-detail" style="padding:1px">
+      <ion-scroll direction="x">
+        <img ng-repeat="actividad in actividades" ng-src="{{actividad.url}}"  class="image-list-thumb"/>
+      </ion-scroll>
+    </a>
 
     <div class="list card" id="list-cumple">
 
@@ -84,16 +97,15 @@
 
           
         <a href="#/articulo-info/{{articulo.id}}" class="item item-icon-left">
-          <i class="icon ion-bookmark" style="color:#AD7C9B"></i>
+          <i class="icon ion-bookmark animated tada infinite" style="color:#AD7C9B"></i>
           <h2>Articulo del Dia</h2>
         </a>
 
-        <div class="item item-image" style="width:100%;height:160px;background: url({{articulo.imagen}});background-size: 100%;background-position:40% 20% "">
-         
-        </div>
-
+        <a href="#/articulo-info/{{articulo.id}}"> 
+          <div class="item item-image" style="width:100%;height:160px;background: url({{articulo.imagen}});background-size: 100%;background-position:40% 20% ""></div>
+        </a>
         <a class="item item-icon-left assertive" href="#/articulo-info/{{articulo.id}}" style="color:#9E9E9E">
-          <i class="icon ion-ios-bookmarks" style="color:#A66B50"></i>
+          <i class="icon ion-ios-bookmarks animated tada infinite" style="color:#A66B50"></i>
             {{articulo.titulo}}
         </a>
 
@@ -103,16 +115,14 @@
 
           
         <a href="#/tab/peticion" class="item item-icon-left">
-          <i class="icon ion-compose" style="color:#C4C016"></i>
+          <i class="icon ion-compose animated tada infinite" style="color:#C4C016"></i>
           <h2>Enviar petición {{peticions.tipo}}</h2>
         </a>
 
-        <div class="item item-image" style="width:100%;height:160px;background: url(img/{{peticions.imagen}});background-size: 100%;background-position:40% 20% "">
-          
-        </div>
+          <a href="#/tab/peticion"><div class="item item-image" style="width:100%;height:160px;background: url(img/{{peticions.imagen}});background-size: 100%;background-position:40% 20% ""></div></a>
 
         <a class="item item-icon-left assertive" href="#/tab/peticion" style="color:#9E9E9E">
-          <i class="icon ion-android-create" style="color:#0B2EAD"></i>
+          <i class="icon ion-android-create animated tada infinite" style="color:#0B2EAD"></i>
             cuéntanos tu necesidad, estaremos orando por usted. 
         </a>
 
@@ -121,16 +131,14 @@
 
           
         <a href="#/tab/consejo" class="item item-icon-left">
-          <i class="icon ion-happy-outline" style="color:#5BAD7B"></i>
+          <i class="icon ion-happy-outline animated tada infinite" style="color:#5BAD7B"></i>
           <h2>Programar consejo {{consejos.tipo}}</h2>
         </a>
 
-        <div class="item item-image" style="width:100%;height:160px;background: url(img/{{consejos.imagen}});background-size: 100%;background-position:40% 20% "">
-          
-        </div>
+          <a href="#/tab/consejo" ><div class="item item-image" style="width:100%;height:160px;background: url(img/{{consejos.imagen}});background-size: 100%;background-position:40% 20% ""></div></a>
 
         <a class="item item-icon-left assertive" href="#/tab/consejo" style="color:#9E9E9E">
-          <i class="icon ion-android-create" style="color:#AA7513"></i>
+          <i class="icon ion-android-create animated tada infinite" style="color:#AA7513"></i>
           Nos comunicaremos con usted para acordar una cita.
         </a>
 
@@ -139,17 +147,15 @@
 
           
         <a href="#/predica/{{predica.id}}" class="item item-icon-left">
-          <i class="icon ion-music-note" style="color:#03AEAC"></i>
+          <i class="icon ion-music-note animated tada infinite" style="color:#03AEAC"></i>
           <h2>{{predica.nombre}}</h2>
           <p>{{predica.predicador}}</p>
         </a>
 
-        <div class="item item-image" style="width:100%;height:160px;background: url({{predica.imagen}});background-size: 100%;background-position:40% 20% "">
-         
-        </div>
+        <a href="#/predica/{{predica.id}}" > <div class="item item-image" style="width:100%;height:160px;background: url({{predica.imagen}});background-size: 100%;background-position:40% 20% ""></div></a>
 
         <a class="item item-icon-left assertive" href="#/predica/{{predica.id}}" style="color:#9E9E9E">
-          <i class="icon ion-play" style="color:#03AEAC"></i>
+          <i class="icon ion-play animated tada infinite" style="color:#03AEAC"></i>
             Iniciar Predica
         </a>
 
@@ -159,22 +165,23 @@
 
           
         <a href="#/album/{{galeria.id}}" class="item item-icon-left">
-          <i class="icon ion-image" style="color:#8940A8"></i>
+          <i class="icon ion-image animated tada infinite" style="color:#8940A8"></i>
           <h2>{{galeria.nombre}}</h2>
           <p></p>
         </a>
 
-        <div class="item item-image" style="width:100%;height:160px;background: url({{galeria.imagen}});background-size: 100%;background-position:40% 20% "">
-         
-        </div>
+          <a href="#/album/{{galeria.id}}"><div class="item item-image" style="width:100%;height:160px;background: url({{galeria.imagen}});background-size: 100%;background-position:40% 20% ""></div></a>
 
         <a class="item item-icon-left assertive" href="#/album/{{galeria.id}}" style="color:#9E9E9E">
-          <i class="icon ion-ios-heart" style="color:#8940A8"></i>
+          <i class="icon ion-ios-heart animated tada infinite" style="color:#8940A8"></i>
             Ver Galeria
         </a>
 
       </div>
-  
-<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCCLibertad%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1248580411832486" width="340" height="500" style="border:none;display:block;margin:0 auto;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+      <div class="list card">
+          <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCCLibertad%2F&tabs=timeline&width=340&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1248580411832486" width="340" height="300" style="border:none;display:block;margin:0 auto;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+         
+      </div>
+
   </ion-content>
 </ion-view>

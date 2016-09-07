@@ -1,7 +1,7 @@
 <ion-view view-title="Grupos">
 	<div class="bar bar-stable" style="height:240px;background:url(img/fondo_mapa2.png)no-repeat center center fixed; background-size: cover;line-height:0px;"></div>
 	<div class="bar bar-stable" style="height:240px;background:transparent;line-height:0px">
-		<a ng-click="sd()" class="button button-icon icon ion-chevron-left left"  style="color:#5D5C5E;display:inline-block" ></a>
+		<a href="#/tabGrup/gruposL" class="button button-icon icon ion-chevron-left left"  style="color:#5D5C5E;display:inline-block" ></a>
 	 	<h5 class="title" style="height:100%;color:#262526;line-height:20px">
 	 		<img src="http://cclapp.com/imagenes_lideres/{{grupo.imagen}}" style="width:135px;"><br>
 	 			{{grupo.nombre}}<br>
@@ -16,7 +16,8 @@
   <ion-content class="has-header" data-tap-disabled="true" style="margin-top:190px">
   <center><h5>¿Como Llegar?</h5></center>
   <hr>
-        <div id="map2" ></div> 
+        <div id="map">
+        </div> 
   </ion-content>
 </ion-view>
   
